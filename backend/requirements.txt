@@ -1,0 +1,62 @@
+# CraftAI Backend Dependencies — Production
+#
+# Licence policy: every dependency here must be commercially usable. Additions are a
+# legal decision, not just a technical one — check the licence before pinning, and
+# record it in LICENSES.md. Weights and code are licensed SEPARATELY: an Apache-2.0
+# package can ship non-commercial weights (that was the XTTS v2 trap, LICENSES.md R1).
+#
+# Deliberately absent, do not re-add without legal review:
+#   PyMuPDF   — AGPL-3.0; its network clause triggers on SaaS use (R3). Use reportlab.
+#   TTS/coqui-tts — pulls CPML (non-commercial) XTTS weights (R1).
+#   piper-tts — GPL-3.0-or-later engine (R6).
+
+# Core Framework
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+
+# Database
+sqlalchemy>=2.0.28
+psycopg2-binary>=2.9.9        # LGPL — dynamic link, unmodified
+alembic>=1.13.0
+
+# Data Validation
+pydantic>=2.6.4
+pydantic-settings>=2.2.1
+
+# Distributed Task Queue
+celery[redis]>=5.3.0
+redis>=5.0.0
+
+# Observability
+prometheus_client>=0.20.0
+opentelemetry-sdk>=1.24.0
+opentelemetry-exporter-otlp>=1.24.0
+opentelemetry-instrumentation-fastapi>=0.45b0
+
+# Documents
+python-pptx>=0.6.23
+python-multipart>=0.0.9
+reportlab>=4.0.0              # BSD — replaced AGPL PyMuPDF for PDF export (R3)
+# Structural report diagrams (architecture, ER, sequence). BSD-style licence,
+# commercially safe. Already installed and used by the deleted fake-chart
+# generator, but never declared here until now.
+matplotlib>=3.8
+fpdf2>=2.7.0                  # LGPL — used by the LaTeX report agent
+
+# TTS — Kokoro-82M (Apache-2.0 weights) is the default engine; Edge-TTS is the fallback.
+# NOTE: kokoro-onnx's phoneme layer pulls phonemizer + espeak-ng, both GPL-3.0. That is
+# acceptable for a hosted-only SaaS but becomes a blocker if containers ship to
+# customers — see LICENSES.md Y14 before building a distributable image.
+kokoro-onnx>=0.6.1
+soundfile>=0.12.0
+edge-tts>=6.1.0               # LGPL-3.0; also review the Microsoft ToS position (Y6)
+
+# Media
+opencv-python>=4.9.0
+imageio-ffmpeg>=0.4.9
+numpy>=2.0.2
+scipy>=1.11.0
+Pillow>=10.0.0
+
+# System monitoring
+psutil>=5.9.0
