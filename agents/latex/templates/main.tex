@@ -1,0 +1,85 @@
+% =============================================================================
+% DEAD REFERENCE TEMPLATE — NOT USED BY THE LIVE PIPELINE
+%
+% This file was designed for a modular TeX assembly approach using
+%   {{TITLE}}, {{SUBTITLE}}, {{ABSTRACT}} placeholder substitution and
+%   \input{chapters/*.tex} includes for per-chapter files.
+%
+% The live pipeline (agents/latex/agent.py  _assemble_main_tex()) does NOT
+% load, read, or substitute this file. It builds main.tex inline from the
+% CognitivePlanner output.
+%
+% Kept as a reference design for a future modular-TeX upgrade.
+% Audit date: 2026-07-25 — confirmed no callers in live path.
+% =============================================================================
+
+\documentclass[11pt,a4paper]{report}
+
+% Essential Packages
+\usepackage[utf8]{utf8}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{microtype}
+
+% Color Palette for Publication
+\definecolor{primary}{RGB}{30, 58, 138}    % Deep Navy
+\definecolor{secondary}{RGB}{99, 102, 241}  % Indigo Accent
+\definecolor{darktext}{RGB}{15, 23, 42}     % Charcoal Body Text
+
+% Header & Footer Setup
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\textcolor{gray}{\small CreateFlow AI Technical Report}}
+\lhead{\textcolor{gray}{\small \leftmark}}
+\cfoot{\thepage}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    citecolor=secondary,
+    urlcolor=primary
+}
+
+\title{
+    \vspace{2cm}
+    {\Huge \bfseries \color{primary} {{TITLE}}} \\[0.5em]
+    {\Large \color{secondary} {{SUBTITLE}}} \\
+    \vfill
+}
+\author{\textbf{CreateFlow AI Multi-Agent Platform}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+% Abstract
+\begin{abstract}
+\noindent {{ABSTRACT}}
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+\listoftables
+\newpage
+
+% Chapters
+\input{chapters/introduction.tex}
+\input{chapters/architecture.tex}
+\input{chapters/implementation.tex}
+\input{chapters/conclusion.tex}
+
+% Bibliography
+\newpage
+\bibliographystyle{plain}
+\bibliography{references/references.bib}
+
+\end{document}

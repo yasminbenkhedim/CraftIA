@@ -1,0 +1,33 @@
+% DEAD REFERENCE TEMPLATE — not used by live pipeline (see templates/main.tex header).
+% Audit date: 2026-07-25
+
+\chapter{Technical Implementation \& Benchmark Evaluation}
+
+\section{Core Technologies \& Deliverable Generators}
+{{IMPL_DETAILS}}
+
+\begin{table}[htbp]
+    \centering
+    \caption{CreateFlow AI Core Technology Stack Specifications}
+    \label{tab:stack}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Layer} & \textbf{Technology} & \textbf{Role} \\
+        \midrule
+        Frontend UI & Angular 18 + Tailwind CSS & User Input \& Real-Time Job Progress \\
+        Backend API & FastAPI + SQLAlchemy & REST Endpoints \& SQLite/PostgreSQL Database \\
+        AI Orchestrator & Groq Llama 3.3 70B & Structured Content Generation \\
+        Deliverable Engine & python-pptx / FPDF2 / FFmpeg & Multi-Format Renderers \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Performance Evaluation \& System Benchmarks}
+{{IMPL_BENCHMARKS}}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{charts/evaluation_chart.png}
+    \caption{Performance Benchmarks: Latency vs Request Batch Size}
+    \label{fig:performance}
+\end{figure}
