@@ -1,0 +1,74 @@
+# ============================================================================
+# INTERNAL DEPLOYMENT INFRASTRUCTURE — NEVER SHARE WITH CLIENTS
+#
+# CreateFlow AI is delivered as a HOSTED SaaS ONLY. This file exists to run the
+# product on OUR OWN infrastructure. It is not a customer deliverable.
+#
+# Do NOT send this file, the image it builds, or any artifact derived from it to a
+# customer, partner, or third party -- including for on-prem installs, self-hosted or
+# air-gapped deployments, white-label/OEM builds, evaluation copies, or escrow.
+#
+# This is a LEGAL constraint, not a preference. The product depends on GPL-3.0
+# components (phonemizer / espeak-ng, via the Kokoro TTS engine). GPL obligations are
+# triggered by DISTRIBUTION, not by hosting. Handing any build to a third party would
+# convey the work and activate those obligations, making the product non-compliant.
+#
+# See LICENSES.md (deployment banner and item R6') before any such deal is agreed.
+# ============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "craftai.fullname" . }}-api
+  labels:
+    app: craftai-api
+spec:
+  replicas: {{ .Values.api.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: craftai-api
+  template:
+    metadata:
+      labels:
+        app: craftai-api
+    spec:
+      containers:
+        - name: api
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
+          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+          ports:
+            - containerPort: 8000
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "craftai.fullname" . }}-config
+            - secretRef:
+                name: {{ include "craftai.fullname" . }}-secrets
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /health/startup
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 12
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "5"]

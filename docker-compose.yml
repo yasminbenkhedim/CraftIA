@@ -1,0 +1,128 @@
+# ============================================================================
+# INTERNAL DEPLOYMENT INFRASTRUCTURE — NEVER SHARE WITH CLIENTS
+#
+# CreateFlow AI is delivered as a HOSTED SaaS ONLY. This file exists to run the
+# product on OUR OWN infrastructure. It is not a customer deliverable.
+#
+# Do NOT send this file, the image it builds, or any artifact derived from it to a
+# customer, partner, or third party -- including for on-prem installs, self-hosted or
+# air-gapped deployments, white-label/OEM builds, evaluation copies, or escrow.
+#
+# This is a LEGAL constraint, not a preference. The product depends on GPL-3.0
+# components (phonemizer / espeak-ng, via the Kokoro TTS engine). GPL obligations are
+# triggered by DISTRIBUTION, not by hosting. Handing any build to a third party would
+# convey the work and activate those obligations, making the product non-compliant.
+#
+# See LICENSES.md (deployment banner and item R6') before any such deal is agreed.
+# ============================================================================
+# CraftAI Production Stack — Docker Compose
+# API + Worker + PostgreSQL + Redis
+
+version: "3.9"
+
+services:
+  # ─── PostgreSQL ──────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-createflow_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - craftai_network
+
+  # ─── Redis ───────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - craftai_network
+
+  # ─── API Server ──────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-createflow_db}"
+      REDIS_URL: "redis://redis:6379/0"
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?OPENAI_API_KEY must be set}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com}
+      OPENAI_MODEL: ${OPENAI_MODEL:-azure.gpt-4o-mini}
+      # Required, no default: a fallback here would be a real signing secret sitting in
+      # tracked source (this one was -- it matched the live key in .env verbatim before
+      # this fix). Same pattern as OPENAI_API_KEY above.
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?JWT_SECRET_KEY must be set}
+      STORAGE_PATH: /app/storage/artifacts
+      OTEL_EXPORTER_OTLP_ENDPOINT: ""
+    volumes:
+      - artifact_storage:/app/storage/artifacts
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/live"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+    networks:
+      - craftai_network
+
+  # ─── Celery Worker ──────────────────────────────────────
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-createflow_db}"
+      REDIS_URL: "redis://redis:6379/0"
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?OPENAI_API_KEY must be set}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com}
+      OPENAI_MODEL: ${OPENAI_MODEL:-azure.gpt-4o-mini}
+      STORAGE_PATH: /app/storage/artifacts
+      CRAFTAI_ARTIFACT_STORAGE: /app/storage/artifacts
+    volumes:
+      - artifact_storage:/app/storage/artifacts
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+    deploy:
+      replicas: 2
+    networks:
+      - craftai_network
+
+volumes:
+  postgres_data:
+  redis_data:
+  artifact_storage:
+
+networks:
+  craftai_network:
+    driver: bridge

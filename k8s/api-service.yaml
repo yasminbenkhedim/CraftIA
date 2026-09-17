@@ -1,0 +1,56 @@
+# ============================================================================
+# INTERNAL DEPLOYMENT INFRASTRUCTURE — NEVER SHARE WITH CLIENTS
+#
+# CreateFlow AI is delivered as a HOSTED SaaS ONLY. This file exists to run the
+# product on OUR OWN infrastructure. It is not a customer deliverable.
+#
+# Do NOT send this file, the image it builds, or any artifact derived from it to a
+# customer, partner, or third party -- including for on-prem installs, self-hosted or
+# air-gapped deployments, white-label/OEM builds, evaluation copies, or escrow.
+#
+# This is a LEGAL constraint, not a preference. The product depends on GPL-3.0
+# components (phonemizer / espeak-ng, via the Kokoro TTS engine). GPL obligations are
+# triggered by DISTRIBUTION, not by hosting. Handing any build to a third party would
+# convey the work and activate those obligations, making the product non-compliant.
+#
+# See LICENSES.md (deployment banner and item R6') before any such deal is agreed.
+# ============================================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: craftai-api-service
+  namespace: craftai
+spec:
+  type: ClusterIP
+  selector:
+    app: craftai-api
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: craftai
+spec:
+  type: ClusterIP
+  selector:
+    app: craftai-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: craftai
+spec:
+  type: ClusterIP
+  selector:
+    app: craftai-redis
+  ports:
+    - port: 6379
+      targetPort: 6379

@@ -1,0 +1,90 @@
+# ============================================================================
+# INTERNAL DEPLOYMENT INFRASTRUCTURE — NEVER SHARE WITH CLIENTS
+#
+# CreateFlow AI is delivered as a HOSTED SaaS ONLY. This file exists to run the
+# product on OUR OWN infrastructure. It is not a customer deliverable.
+#
+# Do NOT send this file, the image it builds, or any artifact derived from it to a
+# customer, partner, or third party -- including for on-prem installs, self-hosted or
+# air-gapped deployments, white-label/OEM builds, evaluation copies, or escrow.
+#
+# This is a LEGAL constraint, not a preference. The product depends on GPL-3.0
+# components (phonemizer / espeak-ng, via the Kokoro TTS engine). GPL obligations are
+# triggered by DISTRIBUTION, not by hosting. Handing any build to a third party would
+# convey the work and activate those obligations, making the product non-compliant.
+#
+# See LICENSES.md (deployment banner and item R6') before any such deal is agreed.
+# ============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: craftai-api
+  namespace: craftai
+  labels:
+    app: craftai-api
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: craftai-api
+  template:
+    metadata:
+      labels:
+        app: craftai-api
+    spec:
+      containers:
+        - name: api
+          image: craftai/api:latest
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          envFrom:
+            - configMapRef:
+                name: craftai-config
+            - secretRef:
+                name: craftai-secrets
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /health/startup
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 12
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "5"]
+          volumeMounts:
+            - name: artifact-storage
+              mountPath: /app/storage/artifacts
+      volumes:
+        - name: artifact-storage
+          persistentVolumeClaim:
+            claimName: craftai-artifacts-pvc

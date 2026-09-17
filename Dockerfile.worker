@@ -1,0 +1,46 @@
+# ============================================================================
+# INTERNAL DEPLOYMENT INFRASTRUCTURE — NEVER SHARE WITH CLIENTS
+#
+# CreateFlow AI is delivered as a HOSTED SaaS ONLY. This file exists to run the
+# product on OUR OWN infrastructure. It is not a customer deliverable.
+#
+# Do NOT send this file, the image it builds, or any artifact derived from it to a
+# customer, partner, or third party -- including for on-prem installs, self-hosted or
+# air-gapped deployments, white-label/OEM builds, evaluation copies, or escrow.
+#
+# This is a LEGAL constraint, not a preference. The product depends on GPL-3.0
+# components (phonemizer / espeak-ng, via the Kokoro TTS engine). GPL obligations are
+# triggered by DISTRIBUTION, not by hosting. Handing any build to a third party would
+# convey the work and activate those obligations, making the product non-compliant.
+#
+# See LICENSES.md (deployment banner and item R6') before any such deal is agreed.
+# ============================================================================
+# Worker image for CraftAI distributed rendering
+FROM python:3.11-slim AS base
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    libsm6 \
+    libxext6 \
+    libgl1-mesa-glx \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY backend/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir celery[redis] redis prometheus_client opentelemetry-sdk opentelemetry-exporter-otlp edge-tts
+
+COPY backend/ ./backend/
+COPY agents/ ./agents/
+
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+ENV C_FORCE_ROOT=1
+
+HEALTHCHECK --interval=15s --timeout=5s --retries=3 \
+    CMD celery -A backend.celery_app inspect ping -t 5 || exit 1
+
+# Run Celery worker
+CMD ["celery", "-A", "backend.celery_app", "worker", "--loglevel=info", "--concurrency=2"]

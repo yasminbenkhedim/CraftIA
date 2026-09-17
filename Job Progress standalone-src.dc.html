@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<template id="__bundler_thumbnail" data-bg-color="#08080C">
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+<rect width="1200" height="800" fill="#08080C"/>
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7C5CFF"/><stop offset="1" stop-color="#3B82F6"/></linearGradient></defs>
+<rect x="360" y="240" width="480" height="320" rx="48" fill="url(#g)" opacity="0.16"/>
+<rect x="440" y="300" width="320" height="14" rx="7" fill="url(#g)"/>
+<rect x="440" y="350" width="200" height="14" rx="7" fill="#2A2A3A"/>
+<circle cx="600" cy="450" r="58" fill="none" stroke="#2A2A3A" stroke-width="12"/>
+<path d="M600 392a58 58 0 0 1 41 99" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round"/>
+</svg>
+</template>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#08080C;color:#EDEDF2;font-family:'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#A899FF;text-decoration:none}
+a:hover{color:#C6BCFF}
+input{font-family:inherit}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.09);border-radius:8px}
+::-webkit-scrollbar-track{background:transparent}
+@keyframes jpSpin{to{transform:rotate(360deg)}}
+@keyframes jpPulse{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes jpHalo{0%,100%{box-shadow:0 0 0 0 rgba(124,92,255,.30),0 0 18px rgba(124,92,255,.28)}50%{box-shadow:0 0 0 7px rgba(124,92,255,0),0 0 26px rgba(124,92,255,.46)}}
+@keyframes jpRowGlow{0%,100%{background:rgba(124,92,255,.075)}50%{background:rgba(124,92,255,.135)}}
+@keyframes jpShimmer{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
+@keyframes jpStripe{0%{background-position:0 0}100%{background-position:34px 0}}
+@keyframes jpDrift{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-2%,2%,0)}}
+@keyframes jpBars{0%,100%{transform:scaleY(.28)}50%{transform:scaleY(1)}}
+@keyframes jpRise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;background:#08080C;position:relative;overflow:hidden">
+  <div style="position:absolute;top:-380px;left:200px;width:920px;height:720px;background:radial-gradient(closest-side,rgba(124,92,255,.20),transparent);filter:blur(20px);pointer-events:none;animation:jpDrift 22s ease-in-out infinite"></div>
+  <div style="position:absolute;bottom:-440px;right:-180px;width:900px;height:820px;background:radial-gradient(closest-side,rgba(59,130,246,.16),transparent);filter:blur(20px);pointer-events:none;animation:jpDrift 28s ease-in-out infinite reverse"></div>
+
+  <!-- rail -->
+  <aside style="position:relative;z-index:2;width:248px;flex:none;min-height:100vh;border-right:1px solid rgba(255,255,255,.06);background:rgba(12,12,18,.72);backdrop-filter:blur(18px);display:flex;flex-direction:column;padding:22px 16px 18px">
+    <div style="display:flex;align-items:center;gap:11px;padding:0 6px 22px">
+      <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#7C5CFF,#3B82F6);display:grid;place-items:center;box-shadow:0 6px 18px rgba(124,92,255,.42)">
+        <div style="width:11px;height:11px;background:#fff;transform:rotate(45deg);border-radius:2px"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:14.5px;font-weight:600;letter-spacing:-.01em">CreateFlow</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#7A7A90;text-transform:uppercase">AI Studio</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;height:38px;border-radius:10px;background:linear-gradient(135deg,#7C5CFF,#3B82F6);color:#fff;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 8px 22px rgba(92,80,255,.34);transition:transform .16s ease,box-shadow .16s ease" style-hover="transform:translateY(-1px);box-shadow:0 12px 28px rgba(92,80,255,.5)">
+      <span style="font-size:15px;line-height:1;margin-top:-1px">+</span> New deliverable
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#5F5F72;text-transform:uppercase;padding:26px 8px 9px">Workspace</div>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#8E8EA0;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5"></span>Create</div>
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#EDEDF2;background:rgba(124,92,255,.14);cursor:pointer"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.8"></span>Active runs<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:5px;background:rgba(124,92,255,.2);color:#B4A6FF">1</span></div>
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#8E8EA0;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5"></span>Library</div>
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#8E8EA0;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5"></span>Brand kit</div>
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#8E8EA0;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5"></span>Assets</div>
+    </nav>
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:14px">
+      <div style="padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.07);background:linear-gradient(160deg,rgba(124,92,255,.14),rgba(59,130,246,.06))">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px">
+          <span style="font-size:11.5px;color:#B7B7C6">Render credits</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#EDEDF2">412<span style="color:#6E6E82">/600</span></span>
+        </div>
+        <div style="height:4px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden"><div style="width:68%;height:100%;border-radius:99px;background:linear-gradient(90deg,#7C5CFF,#3B82F6)"></div></div>
+        <div style="font-size:11px;color:#7A7A90;margin-top:9px">Resets in 12 days · <a href="#">Upgrade</a></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 4px">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#2A2A3A,#3E3E55);display:grid;place-items:center;font-size:11px;font-weight:600;color:#C9C9D8">YA</div>
+        <div style="display:flex;flex-direction:column"><span style="font-size:12px;font-weight:500">Yasmin B.</span><span style="font-size:10.5px;color:#6E6E82">Studio plan</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- main -->
+  <main style="position:relative;z-index:2;flex:1;min-width:0;min-height:100vh;display:flex;flex-direction:column">
+    <header style="height:60px;flex:none;display:flex;align-items:center;gap:16px;padding:0 32px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(8,8,12,.6);backdrop-filter:blur(14px)">
+      <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:9px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);min-width:280px">
+        <span style="width:11px;height:11px;border:1.5px solid #6E6E82;border-radius:50%"></span>
+        <input placeholder="Search deliverables, prompts, assets" style="all:unset;flex:1;font-size:12.5px;color:#EDEDF2" />
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F5F72;border:1px solid rgba(255,255,255,.09);border-radius:4px;padding:1px 5px">⌘K</span>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:7px;height:30px;padding:0 11px;border-radius:99px;border:1px solid rgba(52,211,153,.22);background:rgba(52,211,153,.08)">
+          <span style="width:6px;height:6px;border-radius:50%;background:#34D399;animation:jpPulse 1.8s ease-in-out infinite"></span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#7BE3BC">6 agents online</span>
+        </div>
+        <div style="height:30px;padding:0 12px;border-radius:9px;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;font-size:12px;color:#B7B7C6;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)">Docs</div>
+      </div>
+    </header>
+
+    <div style="flex:1;overflow:auto;padding:30px 32px 52px">
+      <div style="max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:20px">
+
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#8E8EA0">
+          <span style="cursor:pointer;transition:color .15s ease" style-hover="color:#EDEDF2">← Active runs</span>
+          <span style="color:#3E3E4C">/</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#B7B7C6">JOB-2ffe297e</span>
+        </div>
+
+        <!-- ===== job header card ===== -->
+        <section style="position:relative;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(150deg,rgba(28,22,52,.72),rgba(14,14,22,.82) 58%,rgba(12,18,32,.78));overflow:hidden;padding:22px 24px 20px">
+          <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(closest-side at 12% 0%,rgba(124,92,255,.22),transparent 70%)"></div>
+          <div style="position:relative;display:flex;flex-direction:column;gap:18px">
+
+            <div style="display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap">
+              <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+                <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:6px;border:1px solid rgba(146,118,255,.4);background:rgba(124,92,255,.16);color:#C6BCFF">Video montage agent</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#9797AB">16:9 · 45 s · 24 fps</span>
+                </div>
+                <h1 style="margin:0;font-size:30px;font-weight:600;letter-spacing:-.026em;line-height:1.12">Crafting <span style="background:linear-gradient(100deg,#C6BCFF,#8FB6FF);-webkit-background-clip:text;background-clip:text;color:transparent">FitAI product demo</span></h1>
+                <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12.5px;color:#8E8EA0">
+                  <span>Started 10:03:56 AM</span><span style="color:#3E3E4C">·</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#B7B7C6">{{ elapsed }} elapsed</span><span style="color:#3E3E4C">·</span>
+                  <span>14 credits</span>
+                </div>
+              </div>
+
+              <div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:12px">
+                <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 13px;border-radius:99px;border:1px solid {{ chipBorder }};background:{{ chipBg }};transition:all .4s ease">
+                  <span style="width:6px;height:6px;border-radius:50%;background:{{ chipDot }};animation:{{ chipAnim }}"></span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:{{ chipColor }}">{{ chipLabel }}</span>
+                </div>
+                <div style="display:flex;gap:8px">
+                  <div onClick="{{ toggleRun }}" style="height:34px;padding:0 14px;border-radius:10px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;font-size:12.5px;color:#B7B7C6;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.06)">{{ pauseLabel }}</div>
+                  <div onClick="{{ reset }}" style="height:34px;padding:0 14px;border-radius:10px;border:1px solid rgba(248,113,113,.25);background:rgba(248,113,113,.08);display:flex;align-items:center;font-size:12.5px;color:#F49B9B;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(248,113,113,.16)">Cancel run</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- prompt -->
+            <div style="display:flex;gap:14px;padding:15px 17px;border-radius:13px;border:1px solid rgba(255,255,255,.07);background:rgba(8,8,14,.5)">
+              <div style="width:2px;flex:none;border-radius:2px;background:linear-gradient(180deg,#7C5CFF,#3B82F6)"></div>
+              <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#5F5F72">Job prompt</span>
+                <p style="margin:0;font-size:13.6px;line-height:1.62;color:#C4C4D2;text-wrap:pretty">Create a 45-second product demo video for a fitness app called “FitAI” that uses AI to build personalised workout plans. Show people exercising in modern gyms, tracking workouts on their phones, and hitting their goals. Include stats on user results and workout efficiency. Energetic, motivating; audience is health-conscious millennials 25–40.</p>
+              </div>
+            </div>
+
+            <!-- overall progress -->
+            <div style="display:flex;flex-direction:column;gap:11px">
+              <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap">
+                <div style="display:flex;flex-direction:column;gap:3px">
+                  <span style="font-size:13.5px;font-weight:600">{{ headline }}</span>
+                  <span style="font-size:12px;color:#7A7A90">Stage {{ stageNum }} of 6 · {{ subDetail }}</span>
+                </div>
+                <div style="margin-left:auto;display:flex;align-items:flex-end;gap:20px">
+                  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#5F5F72">Remaining</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#EDEDF2">{{ eta }}</span>
+                  </div>
+                  <span style="font-size:30px;font-weight:600;letter-spacing:-.03em;background:linear-gradient(100deg,#C6BCFF,#8FB6FF);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1">{{ pctLabel }}</span>
+                </div>
+              </div>
+              <div style="position:relative;height:9px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden">
+                <div style="position:absolute;inset:0;opacity:.5;background-image:linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 17px)"></div>
+                <div style="position:relative;height:100%;width:{{ pctWidth }};border-radius:99px;background:linear-gradient(90deg,#6C4BFF,#7C5CFF 35%,#3B82F6);box-shadow:0 0 18px rgba(124,92,255,.6);transition:width .7s cubic-bezier(.35,.85,.25,1);overflow:hidden">
+                  <div style="position:absolute;inset:0;background-image:linear-gradient(115deg,rgba(255,255,255,.22) 0 8px,transparent 8px 17px);animation:jpStripe .9s linear infinite"></div>
+                </div>
+                <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none"><div style="position:absolute;top:0;left:0;height:100%;width:22%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);animation:jpShimmer 2.4s ease-in-out infinite"></div></div>
+              </div>
+              <div style="display:flex;gap:5px">
+                <sc-for list="{{ ticks }}" as="t" hint-placeholder-count="6">
+                  <div style="flex:1;height:3px;border-radius:99px;background:{{ t.bg }};transition:background .4s ease"></div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== pipeline + side ===== -->
+        <div style="display:grid;grid-template-columns:1.45fr 1fr;gap:16px;align-items:start">
+
+          <section style="border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(14,14,21,.7);padding:19px 19px 12px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:15px">
+              <span style="font-size:13.5px;font-weight:600">Agent pipeline</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6E6E82">{{ doneCount }}/6 complete</span>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <sc-for list="{{ stages }}" as="s" hint-placeholder-count="6">
+                <div style="position:relative;display:grid;grid-template-columns:44px 1fr;gap:14px;padding:13px 14px;border-radius:13px;border:1px solid {{ s.border }};background:{{ s.rowBg }};animation:{{ s.rowAnim }};transition:border-color .35s ease,background .35s ease">
+                  <div style="position:relative;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;border:1px solid {{ s.iconBorder }};background:{{ s.iconBg }};animation:{{ s.haloAnim }};transition:all .35s ease">
+                    <div style="width:20px;height:20px;color:{{ s.iconColor }};display:grid;place-items:center;transition:color .35s ease">{{ s.icon }}</div>
+                    <sc-if value="{{ s.done }}" hint-placeholder-val="{{ false }}">
+                      <div style="position:absolute;right:-4px;bottom:-4px;width:17px;height:17px;border-radius:50%;background:#34D399;border:2px solid #0C0C13;display:grid;place-items:center">
+                        <div style="width:6px;height:3px;border-left:1.6px solid #062B20;border-bottom:1.6px solid #062B20;transform:rotate(-45deg);margin-top:-1px"></div>
+                      </div>
+                    </sc-if>
+                  </div>
+
+                  <div style="min-width:0;display:flex;flex-direction:column;gap:5px">
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <span style="font-size:13.8px;font-weight:600;color:{{ s.titleColor }};transition:color .35s ease">{{ s.name }}</span>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:5px;border:1px solid {{ s.tagBorder }};background:{{ s.tagBg }};color:{{ s.tagColor }};transition:all .35s ease">{{ s.statusText }}</span>
+                      <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:{{ s.timeColor }}">{{ s.time }}</span>
+                    </div>
+                    <div style="font-size:12.2px;line-height:1.5;color:{{ s.detailColor }};transition:color .35s ease">{{ s.detail }}</div>
+                    <sc-if value="{{ s.active }}" hint-placeholder-val="{{ false }}">
+                      <div style="margin-top:3px;height:4px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden">
+                        <div style="height:100%;width:{{ s.barWidth }};border-radius:99px;background:linear-gradient(90deg,#7C5CFF,#3B82F6);box-shadow:0 0 10px rgba(124,92,255,.55);transition:width .6s ease"></div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+
+          <div style="display:flex;flex-direction:column;gap:16px">
+
+            <!-- live preview -->
+            <section style="border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(14,14,21,.7);overflow:hidden">
+              <div style="position:relative;aspect-ratio:16/9;background:linear-gradient(140deg,#141225,#1D1533 55%,#101A28);overflow:hidden">
+                <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(118deg,rgba(255,255,255,.045) 0 1px,transparent 1px 13px)"></div>
+                <div style="position:absolute;inset:0;background:radial-gradient(closest-side at 62% 44%,rgba(124,92,255,.3),transparent)"></div>
+                <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none"><div style="position:absolute;top:0;left:0;width:34%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);animation:jpShimmer 3s ease-in-out infinite"></div></div>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px">
+                  <div style="width:44px;height:44px;border-radius:50%;border:2px solid rgba(255,255,255,.12);border-top-color:#A899FF;animation:jpSpin 1s linear infinite"></div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#B7B7C6">{{ previewLabel }}</div>
+                </div>
+                <div style="position:absolute;left:12px;top:12px;display:flex;align-items:center;gap:6px;padding:4px 9px;border-radius:99px;background:rgba(8,8,12,.62);border:1px solid rgba(255,255,255,.1)">
+                  <span style="width:5px;height:5px;border-radius:50%;background:#F0A34E;animation:jpPulse 1.4s ease-in-out infinite"></span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#E6C79A">live preview</span>
+                </div>
+                <div style="position:absolute;left:12px;bottom:12px;right:12px;display:flex;align-items:flex-end;gap:3px;height:26px">
+                  <sc-for list="{{ waveform }}" as="w" hint-placeholder-count="28">
+                    <div style="flex:1;height:{{ w.h }};border-radius:2px;background:{{ w.bg }};transform-origin:bottom;animation:{{ w.anim }}"></div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="padding:13px 15px 15px;display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;align-items:baseline;justify-content:space-between">
+                  <span style="font-size:12.5px;font-weight:600">Scene assembly</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6E6E82">{{ sceneCount }}/6 scenes</span>
+                </div>
+                <div style="display:flex;gap:5px">
+                  <sc-for list="{{ scenes }}" as="s" hint-placeholder-count="6">
+                    <div style="flex:1;height:32px;border-radius:7px;border:1px solid {{ s.border }};background:{{ s.bg }};display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:{{ s.color }};transition:all .45s ease">{{ s.label }}</div>
+                  </sc-for>
+                </div>
+              </div>
+            </section>
+
+            <!-- metrics -->
+            <section style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+              <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="4">
+                <div style="padding:13px 14px;border-radius:13px;border:1px solid rgba(255,255,255,.07);background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,.01))">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#6E6E82">{{ m.label }}</div>
+                  <div style="font-size:19px;font-weight:600;letter-spacing:-.02em;margin-top:7px">{{ m.value }}</div>
+                </div>
+              </sc-for>
+            </section>
+
+            <!-- trace -->
+            <section style="border-radius:16px;border:1px solid rgba(255,255,255,.07);background:rgba(10,10,16,.8);padding:14px 15px">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#5F5F72">Live trace</span>
+                <span style="width:5px;height:5px;border-radius:50%;background:#34D399;animation:jpPulse 1.6s ease-in-out infinite"></span>
+                <span style="height:1px;flex:1;background:rgba(255,255,255,.06)"></span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.2px;line-height:1.5">
+                <sc-for list="{{ log }}" as="l" hint-placeholder-count="5">
+                  <div style="display:flex;gap:11px;animation:jpRise .35s ease both"><span style="color:#4F4F60;flex:none">{{ l.t }}</span><span style="color:{{ l.color }};min-width:0">{{ l.msg }}</span></div>
+                </sc-for>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:980},&quot;startStage&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:1,&quot;max&quot;:6,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulation&quot;},&quot;simulateLive&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Simulation&quot;},&quot;speed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:700,&quot;min&quot;:250,&quot;max&quot;:1600,&quot;step&quot;:50,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Simulation&quot;}}">
+class Component extends DCLogic {
+  state = { step: 0, sub: 0, tick: 0, paused: false };
+
+  componentDidMount() {
+    const s = Number(this.props.startStage);
+    if (s >= 1 && s <= 6) this.setState({ step: s - 1 });
+    this.start();
+  }
+  componentWillUnmount() { clearInterval(this._iv); }
+
+  start() {
+    if (this.props.simulateLive === false) return;
+    clearInterval(this._iv);
+    const speed = Number(this.props.speed) || 700;
+    this._iv = setInterval(() => {
+      this.setState(st => {
+        if (st.paused) return { tick: st.tick + 1 };
+        let sub = st.sub + 1, step = st.step;
+        if (sub > this.PER) { sub = 0; step = step + 1; }
+        if (step > 5) { clearInterval(this._iv); return { step: 5, sub: this.PER, tick: st.tick + 1 }; }
+        return { step, sub, tick: st.tick + 1 };
+      });
+    }, speed);
+  }
+  PER = 6;
+
+  icon(kind, color) {
+    const p = { fill: 'none', stroke: color, strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round' };
+    const el = (t, a) => React.createElement(t, Object.assign({ key: t + JSON.stringify(a) }, p, a));
+    const paths = {
+      director: [el('path', { d: 'M2 6.5h13.5v11H2z' }), el('path', { d: 'M15.5 10.5l3.5-2.5v7l-3.5-2.5z' }), el('circle', { cx: 6, cy: 4, r: 2 }), el('circle', { cx: 11.5, cy: 4, r: 2 })],
+      writer: [el('path', { d: 'M13 3.5l3.5 3.5L7 16.5H3.5V13z' }), el('path', { d: 'M3 19h14' })],
+      media: [el('path', { d: 'M3 5h14v11H3z' }), el('path', { d: 'M3 12l4-4 3.5 3.5L14 8l3 3' }), el('circle', { cx: 7.5, cy: 8, r: 1.3 })],
+      voice: [el('path', { d: 'M10 3.5a2.5 2.5 0 0 1 2.5 2.5v4a2.5 2.5 0 0 1-5 0V6A2.5 2.5 0 0 1 10 3.5z' }), el('path', { d: 'M5 10a5 5 0 0 0 10 0' }), el('path', { d: 'M10 15v3' })],
+      comp: [el('path', { d: 'M3 3.5h7v7H3z' }), el('path', { d: 'M10 9.5h7v7h-7z' }), el('path', { d: 'M3.5 13.5h4v4h-4z' })],
+      render: [el('path', { d: 'M10 2.5l7 4v7l-7 4-7-4v-7z' }), el('path', { d: 'M3 6.5l7 4 7-4M10 10.5v7' })]
+    };
+    return React.createElement('svg', { viewBox: '0 0 20 20', width: 20, height: 20 }, paths[kind]);
+  }
+
+  renderVals() {
+    const st = this.state, PER = this.PER;
+    const defs = [
+      ['AI Director', 'director', 'Planning the shot list — 6 scenes, gym b-roll, stat overlays.', 'Shot list locked: 6 scenes across 44.8 s.', '0:14'],
+      ['Screenwriter', 'writer', 'Writing narration and on-screen titles for each beat.', 'Narration draft 2 accepted — 112 words.', '0:22'],
+      ['Media Collection', 'media', 'Fetching and grading gym clips against the brand palette.', '14/14 clips sourced and graded to brand LUT.', '0:48'],
+      ['Voice Generation', 'voice', 'Synthesising Atlas narration and aligning to scene timings.', 'Atlas narration rendered — 44.6 s, −16 LUFS.', '0:31'],
+      ['Compositing', 'comp', 'Assembling scenes, motion titles, and stat callouts.', 'Timeline assembled — 6 scenes, 11 title cards.', '1:06'],
+      ['Rendering', 'render', 'Encoding the master at 1920×1080, 24 fps, H.264.', 'Master exported — video_demo.mp4 (128 MB).', '0:52']
+    ];
+
+    const stages = defs.map(([name, kind, activeDetail, doneDetail, time], i) => {
+      const done = i < st.step, active = i === st.step && !(st.step === 5 && st.sub >= PER);
+      const finished = i === 5 && st.step === 5 && st.sub >= PER;
+      const isDone = done || finished;
+      const pct = Math.min(97, Math.round(st.sub / PER * 100));
+      const iconColor = isDone ? '#34D399' : active ? '#C6BCFF' : '#5E5E70';
+      return {
+        name, done: isDone, active,
+        icon: this.icon(kind, iconColor), iconColor,
+        detail: isDone ? doneDetail : active ? activeDetail : activeDetail,
+        detailColor: isDone ? '#8E8EA0' : active ? '#B7B7C6' : '#63637A',
+        titleColor: isDone || active ? '#EDEDF2' : '#7A7A90',
+        border: active ? 'rgba(146,118,255,.5)' : isDone ? 'rgba(52,211,153,.16)' : 'rgba(255,255,255,.06)',
+        rowBg: isDone ? 'rgba(52,211,153,.045)' : active ? 'rgba(124,92,255,.1)' : 'rgba(255,255,255,.018)',
+        rowAnim: active ? 'jpRowGlow 2.4s ease-in-out infinite' : 'none',
+        iconBorder: active ? 'rgba(146,118,255,.55)' : isDone ? 'rgba(52,211,153,.32)' : 'rgba(255,255,255,.08)',
+        iconBg: active ? 'rgba(124,92,255,.2)' : isDone ? 'rgba(52,211,153,.1)' : 'rgba(255,255,255,.035)',
+        haloAnim: active ? 'jpHalo 2s ease-in-out infinite' : 'none',
+        statusText: isDone ? 'done' : active ? 'active' : 'pending',
+        tagBorder: isDone ? 'rgba(52,211,153,.3)' : active ? 'rgba(146,118,255,.45)' : 'rgba(255,255,255,.08)',
+        tagBg: isDone ? 'rgba(52,211,153,.1)' : active ? 'rgba(124,92,255,.16)' : 'rgba(255,255,255,.03)',
+        tagColor: isDone ? '#7BE3BC' : active ? '#C6BCFF' : '#63637A',
+        time: isDone ? time : active ? pct + '%' : '—',
+        timeColor: isDone ? '#6E6E82' : active ? '#C6BCFF' : '#4F4F60',
+        barWidth: pct + '%'
+      };
+    });
+
+    const total = 6 * (PER + 1);
+    const raw = Math.min(total, st.step * (PER + 1) + st.sub);
+    const pct = Math.round(raw / total * 100);
+    const doneCount = stages.filter(s => s.done).length;
+    const complete = pct >= 100;
+    const activeStage = stages.find(s => s.active);
+
+    const ticks = stages.map(s => ({ bg: s.done ? '#34D399' : s.active ? 'rgba(146,118,255,.85)' : 'rgba(255,255,255,.08)' }));
+
+    const sceneCount = Math.min(6, Math.floor(raw / total * 7));
+    const scenes = ['SC1', 'SC2', 'SC3', 'SC4', 'SC5', 'SC6'].map((label, i) => {
+      const done = i < sceneCount, act = i === sceneCount;
+      return {
+        label,
+        border: done ? 'rgba(52,211,153,.3)' : act ? 'rgba(146,118,255,.5)' : 'rgba(255,255,255,.07)',
+        bg: done ? 'rgba(52,211,153,.08)' : act ? 'rgba(124,92,255,.16)' : 'rgba(255,255,255,.02)',
+        color: done ? '#7BE3BC' : act ? '#C6BCFF' : '#5F5F72'
+      };
+    });
+
+    const waveform = Array.from({ length: 30 }, (_, i) => {
+      const live = st.step >= 3;
+      const h = 22 + Math.round(78 * Math.abs(Math.sin(i * 0.7 + 1.3) * Math.cos(i * 0.31)));
+      return {
+        h: Math.min(100, h) + '%',
+        bg: live ? 'linear-gradient(180deg,rgba(198,188,255,.9),rgba(124,92,255,.35))' : 'rgba(255,255,255,.1)',
+        anim: live ? 'jpBars ' + (0.75 + (i % 5) * 0.16).toFixed(2) + 's ease-in-out ' + (i % 7 * 0.09).toFixed(2) + 's infinite' : 'none'
+      };
+    });
+
+    const logDefs = [
+      ['00:04', 'director › brief parsed — 3 benefit beats identified', '#9797AB'],
+      ['00:14', 'director › shot list locked (6 scenes / 44.8 s)', '#9797AB'],
+      ['00:22', 'screenwriter › narration draft 2 accepted', '#9797AB'],
+      ['00:48', 'media › 14/14 clips graded to brand LUT', '#9797AB'],
+      ['01:19', 'voice › atlas narration synthesised (44.6 s)', '#C6BCFF'],
+      ['02:25', 'compositing › scene 5 of 6 assembled', '#C6BCFF'],
+      ['03:17', 'render › encoding master · h.264 · 24 fps', '#7BE3BC']
+    ];
+    const log = logDefs.slice(Math.max(0, st.step - 1), st.step + 2).reverse();
+
+    const secs = 12 + st.tick * 3;
+    const fmt = (s) => Math.floor(s / 60) + ':' + String(Math.max(0, s % 60)).padStart(2, '0');
+    const remain = Math.max(0, Math.round((total - raw) * 6.4));
+
+    return {
+      stages, ticks, scenes, waveform, sceneCount, doneCount,
+      log: log.map(([t, msg, color]) => ({ t, msg, color })),
+      pctLabel: pct + '%', pctWidth: pct + '%',
+      stageNum: Math.min(6, st.step + 1),
+      headline: complete ? 'Video pipeline complete — artifact validated' : (activeStage ? activeStage.name + ' is working' : 'Queued'),
+      subDetail: complete ? 'video_demo.mp4 ready to download' : (activeStage ? activeStage.detail : ''),
+      eta: complete ? 'done' : fmt(remain),
+      elapsed: fmt(secs),
+      previewLabel: complete ? 'master ready' : (activeStage ? activeStage.name : 'starting'),
+      chipLabel: complete ? 'completed' : st.paused ? 'paused' : 'running',
+      chipBorder: complete ? 'rgba(52,211,153,.32)' : st.paused ? 'rgba(240,163,78,.32)' : 'rgba(146,118,255,.42)',
+      chipBg: complete ? 'rgba(52,211,153,.1)' : st.paused ? 'rgba(240,163,78,.1)' : 'rgba(124,92,255,.16)',
+      chipDot: complete ? '#34D399' : st.paused ? '#F0A34E' : '#A899FF',
+      chipColor: complete ? '#7BE3BC' : st.paused ? '#E6C79A' : '#C6BCFF',
+      chipAnim: complete ? 'none' : 'jpPulse 1.5s ease-in-out infinite',
+      pauseLabel: st.paused ? 'Resume' : 'Pause',
+      toggleRun: () => this.setState(s => ({ paused: !s.paused })),
+      reset: () => { this.setState({ step: 0, sub: 0, tick: 0, paused: false }); this.start(); },
+      metrics: [
+        { label: 'Scenes', value: sceneCount + ' / 6' },
+        { label: 'Clips graded', value: st.step >= 2 ? '14 / 14' : Math.min(14, st.step * 5 + st.sub) + ' / 14' },
+        { label: 'Narration', value: st.step >= 3 ? '44.6 s' : 'pending' },
+        { label: 'Output', value: '1080p · 24fps' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

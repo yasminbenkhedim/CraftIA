@@ -1,0 +1,56 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 0 },
+      "id": 1,
+      "title": "API Request Rate & Latency (P95/P99)",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "rate(http_requests_total[5m])", "legendFormat": "Requests/sec" },
+        { "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))", "legendFormat": "P95 Latency" }
+      ]
+    },
+    {
+      "gridPos": { "h": 8, "w": 6, "x": 6, "y": 0 },
+      "id": 2,
+      "title": "Active Worker Replicas & Queue Depth",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "worker_autoscale_current_replicas", "legendFormat": "Active Workers" },
+        { "expr": "celery_queue_depth", "legendFormat": "Queue Depth" }
+      ]
+    },
+    {
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 0 },
+      "id": 3,
+      "title": "GPU & CPU Utilization (%)",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "gpu_utilization_percent", "legendFormat": "GPU %" },
+        { "expr": "cpu_utilization_percent", "legendFormat": "CPU %" }
+      ]
+    },
+    {
+      "gridPos": { "h": 8, "w": 6, "x": 18, "y": 0 },
+      "id": 4,
+      "title": "Cache Hit Ratio (%)",
+      "type": "stat",
+      "targets": [
+        { "expr": "cache_hits_total / (cache_hits_total + cache_misses_total) * 100", "legendFormat": "Hit Ratio" }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["craftai", "overview", "saas"],
+  "time": { "from": "now-1h", "to": "now" },
+  "title": "CraftAI Enterprise SaaS — Global Overview"
+}

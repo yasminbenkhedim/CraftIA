@@ -1,0 +1,69 @@
+# ============================================================================
+# INTERNAL DEPLOYMENT INFRASTRUCTURE — NEVER SHARE WITH CLIENTS
+#
+# CreateFlow AI is delivered as a HOSTED SaaS ONLY. This file exists to run the
+# product on OUR OWN infrastructure. It is not a customer deliverable.
+#
+# Do NOT send this file, the image it builds, or any artifact derived from it to a
+# customer, partner, or third party -- including for on-prem installs, self-hosted or
+# air-gapped deployments, white-label/OEM builds, evaluation copies, or escrow.
+#
+# This is a LEGAL constraint, not a preference. The product depends on GPL-3.0
+# components (phonemizer / espeak-ng, via the Kokoro TTS engine). GPL obligations are
+# triggered by DISTRIBUTION, not by hosting. Handing any build to a third party would
+# convey the work and activate those obligations, making the product non-compliant.
+#
+# See LICENSES.md (deployment banner and item R6') before any such deal is agreed.
+# ============================================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: craftai-worker
+  namespace: craftai
+  labels:
+    app: craftai-worker
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: craftai-worker
+  template:
+    metadata:
+      labels:
+        app: craftai-worker
+    spec:
+      terminationGracePeriodSeconds: 120
+      nodeSelector:
+        nvidia.com/gpu.present: "true"
+      containers:
+        - name: worker
+          image: craftai/worker:latest
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"
+              nvidia.com/gpu: "1"
+          envFrom:
+            - configMapRef:
+                name: craftai-config
+            - secretRef:
+                name: craftai-secrets
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "wget -q -O /dev/null http://localhost:8000/admin/drain || true"]
+          volumeMounts:
+            - name: artifact-storage
+              mountPath: /app/storage/artifacts
+      volumes:
+        - name: artifact-storage
+          persistentVolumeClaim:
+            claimName: craftai-artifacts-pvc

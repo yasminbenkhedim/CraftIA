@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<![CDATA[<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#08080C;color:#EDEDF2;font-family:'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#A899FF;text-decoration:none}
+a:hover{color:#C6BCFF}
+textarea,input,button{font-family:inherit}
+textarea::placeholder{color:#5C5C70}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.09);border-radius:8px}
+::-webkit-scrollbar-track{background:transparent}
+@keyframes cfSpin{to{transform:rotate(360deg)}}
+@keyframes cfPulse{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes cfShimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+@keyframes cfDrift{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-2%,2%,0)}100%{transform:translate3d(0,0,0)}}
+@keyframes cfBar{0%{background-position:0 0}100%{background-position:40px 0}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;background:#08080C;position:relative;overflow:hidden">
+
+  <div style="position:absolute;top:-360px;left:180px;width:900px;height:700px;background:radial-gradient(closest-side,rgba(124,92,255,.20),transparent);filter:blur(20px);pointer-events:none;animation:cfDrift 22s ease-in-out infinite"></div>
+  <div style="position:absolute;bottom:-420px;right:-160px;width:900px;height:800px;background:radial-gradient(closest-side,rgba(59,130,246,.16),transparent);filter:blur(20px);pointer-events:none;animation:cfDrift 28s ease-in-out infinite reverse"></div>
+
+  <!-- ============ RAIL ============ -->
+  <aside style="position:relative;z-index:2;width:248px;flex:none;min-height:100vh;border-right:1px solid rgba(255,255,255,.06);background:rgba(12,12,18,.72);backdrop-filter:blur(18px);display:flex;flex-direction:column;padding:22px 16px 18px">
+    <div style="display:flex;align-items:center;gap:11px;padding:0 6px 22px">
+      <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#7C5CFF,#3B82F6);display:grid;place-items:center;box-shadow:0 6px 18px rgba(124,92,255,.42)">
+        <div style="width:11px;height:11px;background:#fff;transform:rotate(45deg);border-radius:2px"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:14.5px;font-weight:600;letter-spacing:-.01em">CreateFlow</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#7A7A90;text-transform:uppercase">AI Studio</span>
+      </div>
+    </div>
+
+    <button onClick="{{ goCreate }}" style="all:unset;display:flex;align-items:center;justify-content:center;gap:8px;height:38px;border-radius:10px;background:linear-gradient(135deg,#7C5CFF,#3B82F6);color:#fff;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 8px 22px rgba(92,80,255,.34);transition:transform .16s ease,box-shadow .16s ease" style-hover="transform:translateY(-1px);box-shadow:0 12px 28px rgba(92,80,255,.5)" style-active="transform:translateY(0)">
+      <span style="font-size:15px;line-height:1;margin-top:-1px">+</span> New deliverable
+    </button>
+
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#5F5F72;text-transform:uppercase;padding:26px 8px 9px">Workspace</div>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <div onClick="{{ goCreate }}" style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;cursor:pointer;transition:background .15s ease,color .15s ease;color:{{ navCreateColor }};background:{{ navCreateBg }}" style-hover="background:rgba(255,255,255,.05)">
+        <span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.7"></span>Create
+      </div>
+      <div onClick="{{ goRuns }}" style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;cursor:pointer;transition:background .15s ease,color .15s ease;color:{{ navRunsColor }};background:{{ navRunsBg }}" style-hover="background:rgba(255,255,255,.05)">
+        <span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.7"></span>Active runs
+        <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:5px;background:rgba(124,92,255,.18);color:#B4A6FF">1</span>
+      </div>
+      <div onClick="{{ goLibrary }}" style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;cursor:pointer;transition:background .15s ease,color .15s ease;color:{{ navLibColor }};background:{{ navLibBg }}" style-hover="background:rgba(255,255,255,.05)">
+        <span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.7"></span>Library
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#8E8EA0;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)">
+        <span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5"></span>Brand kit
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#8E8EA0;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)">
+        <span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5"></span>Assets
+      </div>
+    </nav>
+
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:14px">
+      <div style="padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.07);background:linear-gradient(160deg,rgba(124,92,255,.14),rgba(59,130,246,.06))">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px">
+          <span style="font-size:11.5px;color:#B7B7C6">Render credits</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#EDEDF2">412<span style="color:#6E6E82">/600</span></span>
+        </div>
+        <div style="height:4px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden">
+          <div style="width:68%;height:100%;border-radius:99px;background:linear-gradient(90deg,#7C5CFF,#3B82F6)"></div>
+        </div>
+        <div style="font-size:11px;color:#7A7A90;margin-top:9px">Resets in 12 days · <a href="#">Upgrade</a></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 4px">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#2A2A3A,#3E3E55);display:grid;place-items:center;font-size:11px;font-weight:600;color:#C9C9D8">MR</div>
+        <div style="display:flex;flex-direction:column">
+          <span style="font-size:12px;font-weight:500">Mara Reyes</span>
+          <span style="font-size:10.5px;color:#6E6E82">Studio plan</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main style="position:relative;z-index:2;flex:1;min-width:0;min-height:100vh;display:flex;flex-direction:column">
+
+    <header style="height:60px;flex:none;display:flex;align-items:center;gap:16px;padding:0 32px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(8,8,12,.6);backdrop-filter:blur(14px)">
+      <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:9px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);min-width:280px">
+        <span style="width:11px;height:11px;border:1.5px solid #6E6E82;border-radius:50%"></span>
+        <input placeholder="Search deliverables, prompts, assets" style="all:unset;flex:1;font-size:12.5px;color:#EDEDF2" />
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F5F72;border:1px solid rgba(255,255,255,.09);border-radius:4px;padding:1px 5px">⌘K</span>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:7px;height:30px;padding:0 11px;border-radius:99px;border:1px solid rgba(52,211,153,.22);background:rgba(52,211,153,.08)">
+          <span style="width:6px;height:6px;border-radius:50%;background:#34D399;animation:cfPulse 1.8s ease-in-out infinite"></span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#7BE3BC">5 agents online</span>
+        </div>
+        <div style="height:30px;padding:0 12px;border-radius:9px;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;font-size:12px;color:#B7B7C6;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)">Docs</div>
+      </div>
+    </header>
+
+    <!-- ---------- CREATE ---------- -->
+    <sc-if value="{{ isCreate }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:1;overflow:auto;padding:40px 32px 56px">
+      <div style="max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:30px">
+
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#8977FF;text-transform:uppercase">New deliverable</span>
+          <h1 style="margin:0;font-size:34px;font-weight:600;letter-spacing:-.025em;line-height:1.1">What are we making today?</h1>
+          <p style="margin:0;font-size:14.5px;color:#8E8EA0;max-width:560px;text-wrap:pretty">Pick an agent crew, describe the outcome, and drop in any brand material. CreateFlow orchestrates the rest.</p>
+        </div>
+
+        <!-- agents -->
+        <section style="display:flex;flex-direction:column;gap:13px">
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F5F72">01</span>
+            <span style="font-size:13.5px;font-weight:600">Agent crew</span>
+            <span style="font-size:12px;color:#6E6E82">— determines the pipeline that runs</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:13px">
+            <sc-for list="{{ agents }}" as="a" hint-placeholder-count="3">
+              <div onClick="{{ a.select }}" style="position:relative;padding:17px 16px 15px;border-radius:14px;cursor:pointer;overflow:hidden;border:1px solid {{ a.border }};background:{{ a.bg }};box-shadow:{{ a.shadow }};transition:transform .18s cubic-bezier(.2,.7,.3,1),border-color .18s ease,box-shadow .18s ease" style-hover="transform:translateY(-3px)">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px">
+                  <div style="width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:{{ a.iconBg }};border:1px solid rgba(255,255,255,.08)">
+                    <div style="width:12px;height:12px;border-radius:{{ a.glyphRadius }};background:{{ a.glyph }}"></div>
+                  </div>
+                  <div style="width:17px;height:17px;border-radius:50%;border:1.5px solid {{ a.dotBorder }};display:grid;place-items:center">
+                    <div style="width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#7C5CFF,#3B82F6);opacity:{{ a.dotOpacity }};transition:opacity .18s ease"></div>
+                  </div>
+                </div>
+                <div style="font-size:14px;font-weight:600;margin-bottom:5px">{{ a.name }}</div>
+                <div style="font-size:12.3px;line-height:1.5;color:#8E8EA0;min-height:37px;text-wrap:pretty">{{ a.desc }}</div>
+                <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap">
+                  <sc-for list="{{ a.tags }}" as="t" hint-placeholder-count="2">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;padding:3px 7px;border-radius:5px;background:rgba(255,255,255,.05);color:#9797AB">{{ t }}</span>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <!-- prompt -->
+        <section style="display:flex;flex-direction:column;gap:13px">
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F5F72">02</span>
+            <span style="font-size:13.5px;font-weight:600">Creative brief</span>
+            <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6E6E82">{{ charCount }} / 2000</span>
+          </div>
+          <div style="border-radius:14px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(20,20,28,.9),rgba(14,14,20,.9));overflow:hidden">
+            <textarea onChange="{{ onPrompt }}" value="{{ prompt }}" rows="5" placeholder="A 45-second launch film for our AI research assistant. Confident, cinematic, minimal. Open on a dark studio product shot, cut to three benefit beats, close on the logo lockup." style="width:100%;display:block;padding:17px 18px;background:transparent;border:none;outline:none;resize:none;color:#EDEDF2;font-size:14px;line-height:1.6"></textarea>
+            <div style="display:flex;align-items:center;gap:8px;padding:11px 14px;border-top:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.015);flex-wrap:wrap">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#5F5F72;text-transform:uppercase">Starters</span>
+              <sc-for list="{{ starters }}" as="s" hint-placeholder-count="3">
+                <div onClick="{{ s.apply }}" style="font-size:11.5px;padding:5px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.08);color:#B7B7C6;cursor:pointer;transition:all .15s ease" style-hover="border-color:rgba(124,92,255,.55);color:#DCD5FF;background:rgba(124,92,255,.1)">{{ s.label }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+
+        <!-- upload + settings -->
+        <section style="display:grid;grid-template-columns:1.35fr 1fr;gap:13px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:13px">
+            <div style="display:flex;align-items:baseline;gap:10px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F5F72">03</span>
+              <span style="font-size:13.5px;font-weight:600">Source material</span>
+            </div>
+            <div onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" onDrop="{{ onDrop }}" onClick="{{ addSample }}" style="border-radius:14px;border:1.5px dashed {{ dropBorder }};background:{{ dropBg }};padding:26px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;transition:all .18s ease;text-align:center">
+              <div style="width:40px;height:40px;border-radius:12px;background:rgba(124,92,255,.14);border:1px solid rgba(124,92,255,.28);display:grid;place-items:center">
+                <div style="width:13px;height:2px;background:#B4A6FF;position:relative;border-radius:2px"><div style="position:absolute;left:5.5px;top:-5.5px;width:2px;height:13px;background:#B4A6FF;border-radius:2px"></div></div>
+              </div>
+              <div style="font-size:13px;font-weight:500">{{ dropTitle }}</div>
+              <div style="font-size:11.5px;color:#7A7A90">MP4, MOV, PNG, PDF, or a brand kit zip — up to 2 GB</div>
+            </div>
+            <sc-if value="{{ hasFiles }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <sc-for list="{{ files }}" as="f" hint-placeholder-count="2">
+                  <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:11px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025)">
+                    <div style="width:30px;height:22px;border-radius:5px;background:linear-gradient(135deg,rgba(124,92,255,.4),rgba(59,130,246,.3));flex:none"></div>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.name }}</div>
+                      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#6E6E82">{{ f.meta }}</div>
+                    </div>
+                    <div onClick="{{ f.remove }}" style="font-size:14px;color:#6E6E82;cursor:pointer;padding:0 4px" style-hover="color:#EDEDF2">×</div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:13px">
+            <div style="display:flex;align-items:baseline;gap:10px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F5F72">04</span>
+              <span style="font-size:13.5px;font-weight:600">Output</span>
+            </div>
+            <div style="border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.022);padding:15px 15px 16px;display:flex;flex-direction:column;gap:15px">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-size:11.5px;color:#8E8EA0">Aspect ratio</span>
+                <div style="display:flex;gap:6px">
+                  <sc-for list="{{ ratios }}" as="r" hint-placeholder-count="3">
+                    <div onClick="{{ r.select }}" style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 0;border-radius:8px;cursor:pointer;transition:all .15s ease;border:1px solid {{ r.border }};background:{{ r.bg }};color:{{ r.color }}">{{ r.label }}</div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-size:11.5px;color:#8E8EA0">Target length</span>
+                <div style="display:flex;gap:6px">
+                  <sc-for list="{{ lengths }}" as="l" hint-placeholder-count="3">
+                    <div onClick="{{ l.select }}" style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 0;border-radius:8px;cursor:pointer;transition:all .15s ease;border:1px solid {{ l.border }};background:{{ l.bg }};color:{{ l.color }}">{{ l.label }}</div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding-top:2px">
+                <div style="display:flex;flex-direction:column;gap:2px">
+                  <span style="font-size:12.5px">Narration voice</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6E6E82">Atlas · warm baritone</span>
+                </div>
+                <div style="font-size:11.5px;color:#A899FF;cursor:pointer">Change</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- generate bar -->
+        <div style="position:sticky;bottom:-8px;display:flex;align-items:center;gap:16px;padding:14px 16px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(14,14,20,.86);backdrop-filter:blur(16px);box-shadow:0 18px 40px rgba(0,0,0,.45)">
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <span style="font-size:12.5px;color:#B7B7C6">{{ summaryLine }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6E6E82">est. 3 min 40 s · 14 credits</span>
+          </div>
+          <button onClick="{{ startRun }}" style="all:unset;margin-left:auto;display:flex;align-items:center;gap:9px;height:44px;padding:0 22px;border-radius:12px;background:linear-gradient(135deg,#7C5CFF,#3B82F6);color:#fff;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 10px 28px rgba(92,80,255,.4);transition:transform .16s ease,box-shadow .16s ease" style-hover="transform:translateY(-2px);box-shadow:0 16px 34px rgba(92,80,255,.55)" style-active="transform:translateY(0)">
+            Generate
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;opacity:.75;border-left:1px solid rgba(255,255,255,.3);padding-left:9px">⌘⏎</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ---------- RUN / PROGRESS ---------- -->
+    <sc-if value="{{ isRuns }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow:auto;padding:40px 32px 56px">
+      <div style="max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+
+        <div style="display:flex;align-items:flex-end;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:#8977FF;text-transform:uppercase">Run {{ runId }}</span>
+            <h1 style="margin:0;font-size:27px;font-weight:600;letter-spacing:-.022em">{{ runTitle }}</h1>
+            <span style="font-size:13px;color:#8E8EA0">{{ runSub }}</span>
+          </div>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:9px">
+            <div onClick="{{ goLibrary }}" style="height:36px;padding:0 14px;border-radius:10px;border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;font-size:12.5px;color:#B7B7C6;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)">Run in background</div>
+            <div onClick="{{ cancelRun }}" style="height:36px;padding:0 14px;border-radius:10px;border:1px solid rgba(248,113,113,.25);background:rgba(248,113,113,.08);display:flex;align-items:center;font-size:12.5px;color:#F49B9B;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(248,113,113,.16)">Cancel</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:start">
+
+          <!-- preview -->
+          <div style="border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(14,14,20,.7);overflow:hidden">
+            <div style="position:relative;aspect-ratio:16/9;background:linear-gradient(140deg,#131320,#1A1428 55%,#101822);overflow:hidden">
+              <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(118deg,rgba(255,255,255,.045) 0 1px,transparent 1px 13px)"></div>
+              <div style="position:absolute;inset:0;background:radial-gradient(closest-side at 60% 45%,rgba(124,92,255,.28),transparent)"></div>
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+                <div style="width:46px;height:46px;border-radius:50%;border:2px solid rgba(255,255,255,.12);border-top-color:#A899FF;animation:cfSpin 1s linear infinite"></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#B7B7C6;text-transform:uppercase">{{ stageLabel }}</div>
+              </div>
+              <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none"><div style="position:absolute;top:0;left:0;width:35%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);animation:cfShimmer 2.6s ease-in-out infinite"></div></div>
+              <div style="position:absolute;left:14px;top:14px;display:flex;align-items:center;gap:7px;padding:5px 10px;border-radius:99px;background:rgba(8,8,12,.6);border:1px solid rgba(255,255,255,.1)">
+                <span style="width:6px;height:6px;border-radius:50%;background:#F0A34E;animation:cfPulse 1.4s ease-in-out infinite"></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#E6C79A">rendering</span>
+              </div>
+              <div style="position:absolute;right:14px;top:14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#8E8EA0;background:rgba(8,8,12,.6);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:4px 8px">1920×1080 · 24fps</div>
+            </div>
+            <div style="padding:15px 17px 17px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:baseline;justify-content:space-between">
+                <span style="font-size:13px;font-weight:600">Overall progress</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#C6BCFF">{{ pctLabel }}</span>
+              </div>
+              <div style="height:6px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden">
+                <div style="height:100%;width:{{ pctWidth }};border-radius:99px;background:linear-gradient(90deg,#7C5CFF,#3B82F6);box-shadow:0 0 14px rgba(124,92,255,.6);transition:width .5s cubic-bezier(.4,.8,.3,1)"></div>
+              </div>
+              <div style="display:flex;gap:5px">
+                <sc-for list="{{ scenes }}" as="s" hint-placeholder-count="6">
+                  <div style="flex:1;height:34px;border-radius:6px;border:1px solid {{ s.border }};background:{{ s.bg }};display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:{{ s.color }};transition:all .4s ease">{{ s.label }}</div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <!-- pipeline -->
+          <div style="border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(14,14,20,.7);padding:18px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
+              <span style="font-size:13px;font-weight:600">Agent pipeline</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6E6E82">{{ elapsed }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column">
+              <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+                <div style="display:grid;grid-template-columns:26px 1fr;gap:12px">
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+                    <div style="width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;border:1.5px solid {{ s.ring }};background:{{ s.dotBg }};box-shadow:{{ s.dotGlow }};transition:all .35s ease">
+                      <div style="width:7px;height:7px;border-radius:50%;background:{{ s.core }};transition:all .35s ease"></div>
+                    </div>
+                    <div style="width:1.5px;flex:1;min-height:{{ s.lineH }};background:{{ s.line }};transition:background .35s ease"></div>
+                  </div>
+                  <div style="padding-bottom:16px;min-width:0">
+                    <div style="display:flex;align-items:baseline;gap:8px">
+                      <span style="font-size:13px;font-weight:600;color:{{ s.titleColor }}">{{ s.name }}</span>
+                      <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;color:{{ s.statusColor }}">{{ s.status }}</span>
+                    </div>
+                    <div style="font-size:11.8px;line-height:1.5;color:#7A7A90;margin-top:3px">{{ s.detail }}</div>
+                    <sc-if value="{{ s.active }}" hint-placeholder-val="{{ false }}">
+                      <div style="margin-top:8px;height:3px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden">
+                        <div style="height:100%;width:{{ s.barWidth }};border-radius:99px;background:linear-gradient(90deg,#7C5CFF,#3B82F6);transition:width .5s ease"></div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <!-- log -->
+        <div style="border-radius:14px;border:1px solid rgba(255,255,255,.07);background:rgba(10,10,15,.8);padding:14px 16px">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:#5F5F72;text-transform:uppercase">Trace</span>
+            <span style="height:1px;flex:1;background:rgba(255,255,255,.06)"></span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.2px;line-height:1.5">
+            <sc-for list="{{ log }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;gap:12px"><span style="color:#4F4F60;flex:none">{{ l.t }}</span><span style="color:{{ l.color }}">{{ l.msg }}</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ---------- LIBRARY ---------- -->
+    <sc-if value="{{ isLibrary }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;overflow:auto;padding:36px 32px 56px">
+      <div style="max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+
+        <div style="display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <h1 style="margin:0;font-size:28px;font-weight:600;letter-spacing:-.024em">Library</h1>
+            <span style="font-size:13.5px;color:#8E8EA0">42 deliverables · 1 rendering · last export 2 h ago</span>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:9px">
+            <div style="height:36px;padding:0 14px;border-radius:10px;border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;gap:8px;font-size:12.5px;color:#B7B7C6;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)">Newest first</div>
+            <div onClick="{{ goCreate }}" style="height:36px;padding:0 15px;border-radius:10px;background:linear-gradient(135deg,#7C5CFF,#3B82F6);display:flex;align-items:center;font-size:12.5px;font-weight:600;color:#fff;cursor:pointer;box-shadow:0 8px 20px rgba(92,80,255,.32);transition:transform .16s ease" style-hover="transform:translateY(-1px)">New deliverable</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+          <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+            <div style="padding:15px 16px;border-radius:13px;border:1px solid rgba(255,255,255,.07);background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,255,255,.012))">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#6E6E82;text-transform:uppercase">{{ s.label }}</div>
+              <div style="display:flex;align-items:baseline;gap:8px;margin-top:9px">
+                <span style="font-size:25px;font-weight:600;letter-spacing:-.02em">{{ s.value }}</span>
+                <span style="font-size:11.5px;color:{{ s.deltaColor }}">{{ s.delta }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+          <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+            <div onClick="{{ f.select }}" style="height:31px;padding:0 13px;border-radius:99px;display:flex;align-items:center;gap:7px;font-size:12.3px;cursor:pointer;transition:all .15s ease;border:1px solid {{ f.border }};background:{{ f.bg }};color:{{ f.color }}">
+              {{ f.label }}<span style="font-family:'JetBrains Mono',monospace;font-size:10px;opacity:.6">{{ f.count }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:{{ gridCols }};gap:16px">
+          <sc-for list="{{ videos }}" as="v" hint-placeholder-count="6">
+            <div onMouseEnter="{{ v.enter }}" onMouseLeave="{{ v.leave }}" style="border-radius:14px;border:1px solid {{ v.border }};background:rgba(16,16,23,.7);overflow:hidden;cursor:pointer;transform:{{ v.lift }};box-shadow:{{ v.shadow }};transition:transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .22s ease,border-color .22s ease">
+              <div style="position:relative;aspect-ratio:16/9;background:{{ v.thumb }};overflow:hidden">
+                <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(118deg,rgba(255,255,255,.05) 0 1px,transparent 1px 12px)"></div>
+                <div style="position:absolute;left:10px;bottom:9px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;color:rgba(255,255,255,.5);text-transform:uppercase">{{ v.slug }}</div>
+                <div style="position:absolute;right:9px;bottom:9px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:5px;background:rgba(8,8,12,.7);color:#D6D6E2">{{ v.dur }}</div>
+                <div style="position:absolute;left:9px;top:9px;display:flex;align-items:center;gap:6px;padding:4px 9px;border-radius:99px;border:1px solid {{ v.badgeBorder }};background:{{ v.badgeBg }}">
+                  <span style="width:5px;height:5px;border-radius:50%;background:{{ v.badgeDot }};animation:{{ v.badgeAnim }}"></span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.05em;color:{{ v.badgeColor }}">{{ v.status }}</span>
+                </div>
+                <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,8,12,.55),rgba(8,8,12,.05));opacity:{{ v.hoverOpacity }};display:flex;align-items:center;justify-content:center;transition:opacity .22s ease">
+                  <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.28);display:grid;place-items:center;transform:{{ v.playScale }};transition:transform .22s cubic-bezier(.2,.7,.3,1)">
+                    <div style="width:0;height:0;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:4px"></div>
+                  </div>
+                </div>
+                <div style="position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.12)"><div style="height:100%;width:{{ v.scrub }};background:linear-gradient(90deg,#7C5CFF,#3B82F6);transition:width .6s ease"></div></div>
+              </div>
+              <div style="padding:13px 14px 14px;display:flex;flex-direction:column;gap:8px">
+                <div style="font-size:13.5px;font-weight:600;letter-spacing:-.008em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ v.title }}</div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:5px;background:rgba(124,92,255,.14);color:#B4A6FF">{{ v.agent }}</span>
+                  <span style="font-size:11.5px;color:#6E6E82">{{ v.meta }}</span>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </main>
+</div>]]>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;create&quot;,&quot;runs&quot;,&quot;library&quot;],&quot;default&quot;:&quot;create&quot;,&quot;tsType&quot;:&quot;'create'|'runs'|'library'&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;simulateLive&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;gridDensity&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;comfortable&quot;,&quot;compact&quot;],&quot;default&quot;:&quot;comfortable&quot;,&quot;tsType&quot;:&quot;'comfortable'|'compact'&quot;,&quot;section&quot;:&quot;Library&quot;}}">
+class Component extends DCLogic {
+  state = {
+    screen: null, agent: 'video', prompt: '', drag: false, files: [],
+    ratio: '16:9', len: '45s', filter: 'All', hover: null,
+    step: 0, sub: 0, tick: 0, running: false
+  };
+
+  componentDidMount() {
+    const s = this.props.startScreen || 'create';
+    this.setState({ screen: s }, () => { if (s === 'runs') this.startTimer(); });
+  }
+  componentWillUnmount() { clearInterval(this._iv); }
+
+  startTimer() {
+    if (this.props.simulateLive === false) return;
+    clearInterval(this._iv);
+    this._iv = setInterval(() => {
+      this.setState(st => {
+        let sub = st.sub + 1, step = st.step;
+        if (sub > 6) { sub = 0; step = Math.min(4, step + 1); }
+        if (step === 4 && sub > 5) { clearInterval(this._iv); sub = 6; }
+        return { sub, step, tick: st.tick + 1 };
+      });
+    }, 700);
+  }
+
+  go = (screen) => () => {
+    clearInterval(this._iv);
+    this.setState({ screen }, () => { if (screen === 'runs') this.startTimer(); });
+  };
+  startRun = () => {
+    this.setState({ screen: 'runs', step: 0, sub: 0, tick: 0, running: true }, () => this.startTimer());
+  };
+
+  pct() { const s = this.state; return Math.min(100, Math.round((s.step * 7 + s.sub) / 34 * 100)); }
+
+  renderVals() {
+    const st = this.state;
+    const G = 'linear-gradient(135deg,#7C5CFF,#3B82F6)';
+    const navOn = (k) => ({ color: st.screen === k ? '#EDEDF2' : '#8E8EA0', bg: st.screen === k ? 'rgba(124,92,255,.14)' : 'transparent' });
+    const nc = navOn('create'), nr = navOn('runs'), nl = navOn('library');
+
+    const agentDefs = [
+      { id: 'video', name: 'Video Montage', desc: 'Scripted explainer or launch film with TTS narration and stock cuts.', tags: ['MP4', '5 agents', 'TTS'], glyph: G, glyphRadius: '3px' },
+      { id: 'deck', name: 'Presentation', desc: 'Branded slide deck with speaker notes, exported to .pptx or .pdf.', tags: ['PPTX', '3 agents'], glyph: 'linear-gradient(135deg,#F0A34E,#E96C6C)', glyphRadius: '3px' },
+      { id: 'report', name: 'Research Report', desc: 'Long-form technical write-up with citations, typeset to PDF.', tags: ['PDF', '4 agents'], glyph: 'linear-gradient(135deg,#34D399,#3B82F6)', glyphRadius: '50%' }
+    ];
+    const agents = agentDefs.map(a => {
+      const on = st.agent === a.id;
+      return Object.assign({}, a, {
+        select: () => this.setState({ agent: a.id }),
+        border: on ? 'rgba(146,118,255,.65)' : 'rgba(255,255,255,.075)',
+        bg: on ? 'linear-gradient(160deg,rgba(124,92,255,.17),rgba(59,130,246,.07))' : 'rgba(255,255,255,.022)',
+        shadow: on ? '0 14px 34px rgba(92,80,255,.26)' : '0 1px 0 rgba(255,255,255,.02)',
+        iconBg: on ? 'rgba(255,255,255,.08)' : 'rgba(255,255,255,.04)',
+        dotBorder: on ? '#9E8BFF' : 'rgba(255,255,255,.18)',
+        dotOpacity: on ? 1 : 0
+      });
+    });
+
+    const starters = [
+      ['Product launch film', 'A 45-second launch film for our AI research assistant. Confident, cinematic, minimal — dark studio product shot, three benefit beats, logo lockup close.'],
+      ['Feature walkthrough', 'A 60-second walkthrough of the new timeline editor: cold open on the problem, three UI beats with callouts, end on a CTA card.'],
+      ['Customer story', 'A 30-second customer story montage: quote-led opening, b-roll of the team, metric reveal, warm outro.']
+    ].map(([label, text]) => ({ label, apply: () => this.setState({ prompt: text }) }));
+
+    const pill = (on) => ({
+      border: on ? 'rgba(146,118,255,.6)' : 'rgba(255,255,255,.08)',
+      bg: on ? 'rgba(124,92,255,.16)' : 'transparent',
+      color: on ? '#DCD5FF' : '#8E8EA0'
+    });
+    const ratios = ['16:9', '9:16', '1:1'].map(l => Object.assign({ label: l, select: () => this.setState({ ratio: l }) }, pill(st.ratio === l)));
+    const lengths = ['15s', '45s', '90s'].map(l => Object.assign({ label: l, select: () => this.setState({ len: l }) }, pill(st.len === l)));
+
+    const stepDefs = [
+      ['Director', 'Breaking the brief into a 6-scene shot list and pacing map.'],
+      ['Screenwriter', 'Writing narration, on-screen titles, and scene captions.'],
+      ['Media', 'Sourcing and grading 14 clips against the brand palette.'],
+      ['Voice', 'Synthesising narration with Atlas, aligning to scene timings.'],
+      ['Render', 'Compositing at 1920×1080, 24 fps, loudness-normalised audio.']
+    ];
+    const steps = stepDefs.map(([name, detail], i) => {
+      const done = i < st.step, active = i === st.step;
+      return {
+        name, detail, active,
+        status: done ? 'done' : active ? Math.min(99, st.sub * 15) + '%' : 'queued',
+        statusColor: done ? '#7BE3BC' : active ? '#C6BCFF' : '#5F5F72',
+        titleColor: done || active ? '#EDEDF2' : '#7A7A90',
+        ring: done ? 'rgba(52,211,153,.55)' : active ? '#9E8BFF' : 'rgba(255,255,255,.14)',
+        dotBg: done ? 'rgba(52,211,153,.18)' : active ? 'rgba(124,92,255,.22)' : 'transparent',
+        dotGlow: active ? '0 0 0 4px rgba(124,92,255,.14)' : 'none',
+        core: done ? '#34D399' : active ? '#C6BCFF' : 'rgba(255,255,255,.2)',
+        line: done ? 'rgba(52,211,153,.35)' : 'rgba(255,255,255,.09)',
+        lineH: i === stepDefs.length - 1 ? '0px' : '14px',
+        barWidth: Math.min(96, st.sub * 15) + '%'
+      };
+    });
+
+    const scenes = ['SC1', 'SC2', 'SC3', 'SC4', 'SC5', 'SC6'].map((label, i) => {
+      const p = st.step * 1.2 + st.sub * 0.2;
+      const done = i < p - 1, act = Math.floor(p) === i;
+      return {
+        label,
+        border: done ? 'rgba(52,211,153,.3)' : act ? 'rgba(146,118,255,.5)' : 'rgba(255,255,255,.07)',
+        bg: done ? 'rgba(52,211,153,.08)' : act ? 'rgba(124,92,255,.16)' : 'rgba(255,255,255,.02)',
+        color: done ? '#7BE3BC' : act ? '#C6BCFF' : '#5F5F72'
+      };
+    });
+
+    const logDefs = [
+      ['00:02', 'director › shot list locked — 6 scenes, 44.8 s', '#9797AB'],
+      ['00:11', 'screenwriter › narration draft 2 accepted', '#9797AB'],
+      ['00:24', 'media › 14/14 clips graded to brand LUT', '#9797AB'],
+      ['00:38', 'voice › atlas narration synthesised (44.6 s)', '#C6BCFF'],
+      ['00:51', 'render › compositing scene 4 of 6', '#7BE3BC']
+    ];
+    const log = logDefs.slice(0, Math.max(2, st.step + 1)).map(([t, msg, color]) => ({ t, msg, color }));
+
+    const vids = [
+      ['Aurora launch film', 'Video Montage', '00:45', 'ready', 'linear-gradient(140deg,#1B1430,#2A1C4A 60%,#141B2E)', 'aurora_v4_final'],
+      ['Q3 investor update', 'Presentation', '12 slides', 'ready', 'linear-gradient(140deg,#2A1A16,#3A2418 60%,#1C1512)', 'q3_investor_deck'],
+      ['Timeline editor walkthrough', 'Video Montage', '01:02', 'rendering', 'linear-gradient(140deg,#12202B,#16304A 60%,#101A26)', 'timeline_walkthrough'],
+      ['Agent orchestration report', 'Research Report', '18 pages', 'ready', 'linear-gradient(140deg,#141F1B,#193029 60%,#101A18)', 'orchestration_paper'],
+      ['Nova customer story', 'Video Montage', '00:31', 'review', 'linear-gradient(140deg,#26142A,#3A1C3E 60%,#1A1220)', 'nova_story_cut2'],
+      ['Onboarding sizzle reel', 'Video Montage', '00:22', 'failed', 'linear-gradient(140deg,#2A1418,#3B1A20 60%,#1C1216)', 'onboard_sizzle'],
+      ['Brand system primer', 'Presentation', '24 slides', 'ready', 'linear-gradient(140deg,#1A1A2E,#242444 60%,#14141F)', 'brand_primer'],
+      ['Field ops explainer', 'Video Montage', '00:58', 'ready', 'linear-gradient(140deg,#1C2216,#2A331C 60%,#151A11)', 'field_ops_v2']
+    ];
+    const badge = {
+      ready: ['rgba(52,211,153,.28)', 'rgba(6,26,20,.72)', '#34D399', '#7BE3BC', 'none'],
+      rendering: ['rgba(124,92,255,.4)', 'rgba(14,10,30,.75)', '#A899FF', '#C6BCFF', 'cfPulse 1.4s ease-in-out infinite'],
+      review: ['rgba(240,163,78,.32)', 'rgba(28,18,6,.72)', '#F0A34E', '#E6C79A', 'none'],
+      failed: ['rgba(248,113,113,.3)', 'rgba(30,10,12,.72)', '#F87171', '#F49B9B', 'none']
+    };
+    const videos = vids
+      .filter(v => st.filter === 'All' || (st.filter === 'Video' && v[1] === 'Video Montage') || (st.filter === 'Decks' && v[1] === 'Presentation') || (st.filter === 'Reports' && v[1] === 'Research Report') || (st.filter === 'Rendering' && v[3] === 'rendering'))
+      .map(([title, agent, dur, status, thumb, slug], i) => {
+        const b = badge[status], on = st.hover === title;
+        return {
+          title, agent, dur, status, thumb, slug,
+          meta: ['2 h ago', 'yesterday', 'live', '3 d ago', '4 d ago', '5 d ago', 'last week', 'last week'][i % 8],
+          badgeBorder: b[0], badgeBg: b[1], badgeDot: b[2], badgeColor: b[3], badgeAnim: b[4],
+          enter: () => this.setState({ hover: title }),
+          leave: () => this.setState({ hover: null }),
+          border: on ? 'rgba(146,118,255,.5)' : 'rgba(255,255,255,.07)',
+          lift: on ? 'translateY(-4px)' : 'translateY(0)',
+          shadow: on ? '0 20px 44px rgba(0,0,0,.5)' : '0 1px 0 rgba(255,255,255,.02)',
+          hoverOpacity: on ? 1 : 0,
+          playScale: on ? 'scale(1)' : 'scale(.82)',
+          scrub: on ? '38%' : status === 'rendering' ? '64%' : '0%'
+        };
+      });
+
+    const filters = ['All', 'Video', 'Decks', 'Reports', 'Rendering'].map((label, i) => Object.assign({
+      label, count: [42, 26, 9, 6, 1][i], select: () => this.setState({ filter: label })
+    }, pill(st.filter === label)));
+
+    const stats = [
+      { label: 'Deliverables', value: '42', delta: '+6 this week', deltaColor: '#7BE3BC' },
+      { label: 'Render minutes', value: '318', delta: '68% of quota', deltaColor: '#8E8EA0' },
+      { label: 'Avg. run time', value: '3:42', delta: '−22 s', deltaColor: '#7BE3BC' },
+      { label: 'Needs review', value: '3', delta: 'oldest 2 d', deltaColor: '#E6C79A' }
+    ];
+
+    const files = st.files.map((f, i) => ({
+      name: f.name, meta: f.meta,
+      remove: () => this.setState(s => ({ files: s.files.filter((_, j) => j !== i) }))
+    }));
+
+    const agentName = (agentDefs.find(a => a.id === st.agent) || agentDefs[0]).name;
+
+    return {
+      isCreate: st.screen === 'create', isRuns: st.screen === 'runs', isLibrary: st.screen === 'library',
+      goCreate: this.go('create'), goRuns: this.go('runs'), goLibrary: this.go('library'),
+      navCreateColor: nc.color, navCreateBg: nc.bg, navRunsColor: nr.color, navRunsBg: nr.bg,
+      navLibColor: nl.color, navLibBg: nl.bg,
+      agents, starters, ratios, lengths, filters, stats, videos, steps, scenes, log, files,
+      prompt: st.prompt, charCount: st.prompt.length,
+      onPrompt: (e) => this.setState({ prompt: e.target.value }),
+      onDragOver: (e) => { e.preventDefault(); if (!st.drag) this.setState({ drag: true }); },
+      onDragLeave: () => this.setState({ drag: false }),
+      onDrop: (e) => {
+        e.preventDefault();
+        const dropped = Array.from((e.dataTransfer && e.dataTransfer.files) || []).map(f => ({
+          name: f.name, meta: (f.size / 1048576).toFixed(1) + ' MB · ' + (f.type || 'file')
+        }));
+        this.setState(s => ({ drag: false, files: s.files.concat(dropped.length ? dropped : [{ name: 'brand-kit.zip', meta: '18.4 MB · archive' }]) }));
+      },
+      addSample: () => this.setState(s => ({ files: s.files.concat([{ name: 'product-hero-4k.mov', meta: '184.2 MB · video/quicktime' }]) })),
+      hasFiles: st.files.length > 0,
+      dropBorder: st.drag ? '#9E8BFF' : 'rgba(255,255,255,.12)',
+      dropBg: st.drag ? 'rgba(124,92,255,.12)' : 'rgba(255,255,255,.018)',
+      dropTitle: st.drag ? 'Release to attach' : 'Drop footage, stills, or a brand kit',
+      summaryLine: agentName + ' · ' + st.ratio + ' · ' + st.len + ' · Atlas voice',
+      runId: 'RUN-4192', runTitle: 'Aurora launch film', runSub: agentName + ' crew · 16:9 · 45 s target',
+      stageLabel: (steps[st.step] || steps[4]).name + ' working',
+      pctLabel: this.pct() + '%', pctWidth: this.pct() + '%',
+      elapsed: '00:' + String(12 + st.tick * 3).padStart(2, '0') + ' elapsed',
+      gridCols: this.props.gridDensity === 'compact' ? 'repeat(auto-fill,minmax(220px,1fr))' : 'repeat(auto-fill,minmax(292px,1fr))'
+    };
+  }
+}
+</script>
+</body>
+</html>

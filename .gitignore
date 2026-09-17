@@ -1,0 +1,92 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.pytest_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/dist/
+.angular/
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# Databases (local dev SQLite -- holds password hashes and job history)
+*.db
+*.sqlite
+*.sqlite3
+
+# Storage & artifacts (generated output, model weights, provider caches --
+# regenerated/redownloaded per the README setup steps, not source)
+storage/
+*.mp4
+*.wav
+*.avi
+*.mov
+# Runtime agent memory (written by agents/memory.py; holds local artifact paths)
+agents/agent_memory_store.json
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Claude Code local session state (per-machine, not shared project config)
+.claude/settings.local.json
+.claude/*.lock
+
+# ── backend/ root ────────────────────────────────────────────────────────
+# This directory accumulated ~300 one-off debug/audit/test scripts and their
+# output dumps (logs, .txt, .json, stray binaries) during earlier
+# development -- none of it is the shipped application. A blacklist of
+# naming patterns kept missing stragglers (scripts with no common prefix,
+# e.g. print_step7144.py), so this whitelists instead: ignore everything
+# directly under backend/, then explicitly re-include the real application
+# code, its subpackages, and its config. Nothing here is deleted from disk --
+# only excluded from what gets pushed.
+/backend/*
+!/backend/app/
+!/backend/api/
+!/backend/alembic/
+!/backend/orchestrator/
+!/backend/artifacts/
+!/backend/tasks/
+!/backend/workers/
+!/backend/scheduler/
+!/backend/security/
+!/backend/observability/
+!/backend/autoscaling/
+!/backend/benchmarks/
+!/backend/cache/
+!/backend/chaos/
+!/backend/checkpoints/
+!/backend/dr/
+!/backend/feature_flags/
+!/backend/finops/
+!/backend/requirements.txt
+!/backend/alembic.ini
+!/backend/env_bootstrap.py
+!/backend/celery_app.py
+
+# Project-root scratch/generated content from the same era as the backend/
+# cleanup above.
+/audit_outputs/
+/videos/
+/fix_unicode.py
+
+# Stale local script hardcoding a real (if possibly revoked) Groq API key and paths
+# from a different machine/collaborator -- never push credentials in plaintext.
+/start_backend.bat

@@ -1,0 +1,32 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "id": 3,
+  "panels": [
+    {
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "id": 20,
+      "title": "Tenant Spend USD (Accumulated)",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "finops_cost_usd_total", "legendFormat": "Tenant {{tenant_id}}" }
+      ]
+    },
+    {
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "id": 21,
+      "title": "Resource Consumption (GPU/CPU/Storage/Network)",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "rate(gpu_minutes_total[5m])", "legendFormat": "GPU Mins/sec" },
+        { "expr": "rate(s3_upload_bytes_total[5m])", "legendFormat": "S3 Egress Bytes/sec" }
+      ]
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["craftai", "finops", "cost"],
+  "time": { "from": "now-6h", "to": "now" },
+  "title": "CraftAI Enterprise SaaS — FinOps Cost Analytics & Budgets"
+}

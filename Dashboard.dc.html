@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#08080C;color:#EDEDF2;font-family:'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#A899FF;text-decoration:none}
+a:hover{color:#C6BCFF}
+input{font-family:inherit}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.09);border-radius:8px}
+::-webkit-scrollbar-track{background:transparent}
+@keyframes dbPulse{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes dbSpin{to{transform:rotate(360deg)}}
+@keyframes dbShimmer{0%{transform:translateX(-130%)}100%{transform:translateX(330%)}}
+@keyframes dbBlobA{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-5%,4%,0) scale(1.08)}}
+@keyframes dbBlobB{0%,100%{transform:translate3d(0,0,0) scale(1.05)}50%{transform:translate3d(6%,-5%,0) scale(.95)}}
+@keyframes dbBlobC{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-3%,-6%,0)}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;background:#08080C;position:relative;overflow:hidden">
+
+  <!-- rail -->
+  <aside style="position:relative;z-index:3;width:248px;flex:none;min-height:100vh;border-right:1px solid rgba(255,255,255,.06);background:rgba(12,12,18,.72);backdrop-filter:blur(18px);display:flex;flex-direction:column;padding:22px 16px 18px">
+    <div style="display:flex;align-items:center;gap:11px;padding:0 6px 22px">
+      <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#7C5CFF,#3B82F6);display:grid;place-items:center;box-shadow:0 6px 18px rgba(124,92,255,.42)">
+        <div style="width:11px;height:11px;background:#fff;transform:rotate(45deg);border-radius:2px"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:14.5px;font-weight:600;letter-spacing:-.01em">CreateFlow</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#7A7A90;text-transform:uppercase">AI Studio</span>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;height:38px;border-radius:10px;background:linear-gradient(135deg,#7C5CFF,#3B82F6);color:#fff;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 8px 22px rgba(92,80,255,.34);transition:transform .16s ease,box-shadow .16s ease" style-hover="transform:translateY(-1px);box-shadow:0 12px 28px rgba(92,80,255,.5)" style-active="transform:translateY(0)">
+      <span style="font-size:15px;line-height:1;margin-top:-1px">+</span> New deliverable
+    </div>
+
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#5F5F72;text-transform:uppercase;padding:26px 8px 9px">Workspace</div>
+    <nav style="display:flex;flex-direction:column;gap:2px">
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#EDEDF2;background:rgba(124,92,255,.14);cursor:pointer"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.8"></span>Create</div>
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#8E8EA0;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5"></span>Active runs<span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:5px;background:rgba(124,92,255,.18);color:#B4A6FF">2</span></div>
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#8E8EA0;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5"></span>Library</div>
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#8E8EA0;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5"></span>Brand kit</div>
+      <div style="display:flex;align-items:center;gap:10px;height:34px;padding:0 10px;border-radius:9px;font-size:13px;color:#8E8EA0;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5"></span>Assets</div>
+    </nav>
+
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:14px">
+      <div style="padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.07);background:linear-gradient(160deg,rgba(124,92,255,.14),rgba(59,130,246,.06))">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px">
+          <span style="font-size:11.5px;color:#B7B7C6">Render credits</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#EDEDF2">412<span style="color:#6E6E82">/600</span></span>
+        </div>
+        <div style="height:4px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden"><div style="width:68%;height:100%;border-radius:99px;background:linear-gradient(90deg,#7C5CFF,#3B82F6)"></div></div>
+        <div style="font-size:11px;color:#7A7A90;margin-top:9px">Resets in 12 days · <a href="#">Upgrade</a></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 4px">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#2A2A3A,#3E3E55);display:grid;place-items:center;font-size:11px;font-weight:600;color:#C9C9D8">YA</div>
+        <div style="display:flex;flex-direction:column"><span style="font-size:12px;font-weight:500">Yasmin B.</span><span style="font-size:10.5px;color:#6E6E82">Studio plan</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- main -->
+  <main style="position:relative;z-index:2;flex:1;min-width:0;min-height:100vh;display:flex;flex-direction:column">
+    <header style="height:60px;flex:none;display:flex;align-items:center;gap:16px;padding:0 32px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(8,8,12,.6);backdrop-filter:blur(14px)">
+      <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:9px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);min-width:300px">
+        <span style="width:11px;height:11px;border:1.5px solid #6E6E82;border-radius:50%"></span>
+        <input placeholder="Search deliverables, prompts, assets" style="all:unset;flex:1;font-size:12.5px;color:#EDEDF2" />
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5F5F72;border:1px solid rgba(255,255,255,.09);border-radius:4px;padding:1px 5px">⌘K</span>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:7px;height:30px;padding:0 11px;border-radius:99px;border:1px solid rgba(52,211,153,.22);background:rgba(52,211,153,.08)">
+          <span style="width:6px;height:6px;border-radius:50%;background:#34D399;animation:dbPulse 1.8s ease-in-out infinite"></span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#7BE3BC">6 agents online</span>
+        </div>
+        <div style="height:30px;padding:0 12px;border-radius:9px;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;font-size:12px;color:#B7B7C6;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.05)">Docs</div>
+      </div>
+    </header>
+
+    <div style="flex:1;overflow:auto;padding:28px 32px 56px">
+      <div style="max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:20px">
+
+        <!-- ===== HERO ===== -->
+        <section style="position:relative;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(150deg,rgba(26,20,50,.8),rgba(12,12,20,.86) 55%,rgba(11,18,34,.8));overflow:hidden;padding:52px 40px 46px">
+          <div style="position:absolute;top:-180px;left:6%;width:520px;height:420px;pointer-events:none;background:radial-gradient(closest-side,rgba(124,92,255,.42),transparent);filter:blur(12px);animation:dbBlobA 18s ease-in-out infinite"></div>
+          <div style="position:absolute;bottom:-240px;right:2%;width:560px;height:460px;pointer-events:none;background:radial-gradient(closest-side,rgba(59,130,246,.34),transparent);filter:blur(14px);animation:dbBlobB 24s ease-in-out infinite"></div>
+          <div style="position:absolute;top:20%;right:32%;width:340px;height:300px;pointer-events:none;background:radial-gradient(closest-side,rgba(217,110,255,.18),transparent);filter:blur(16px);animation:dbBlobC 30s ease-in-out infinite"></div>
+          <div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(closest-side at 50% 40%,#000,transparent);-webkit-mask-image:radial-gradient(closest-side at 50% 40%,#000,transparent)"></div>
+
+          <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center">
+            <div style="display:flex;align-items:center;gap:8px;height:30px;padding:0 13px;border-radius:99px;border:1px solid rgba(146,118,255,.35);background:rgba(124,92,255,.14);backdrop-filter:blur(8px)">
+              <span style="width:5px;height:5px;border-radius:50%;background:#A899FF;animation:dbPulse 1.6s ease-in-out infinite"></span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#C6BCFF">Multi-agent orchestration</span>
+            </div>
+            <h1 style="margin:0;font-size:52px;font-weight:600;letter-spacing:-.036em;line-height:1.06;max-width:760px">What will you <span style="background:linear-gradient(100deg,#C6BCFF,#8FB6FF 55%,#E0B4FF);-webkit-background-clip:text;background-clip:text;color:transparent">create</span> today?</h1>
+            <p style="margin:0;font-size:15.5px;line-height:1.6;color:#9797AB;max-width:530px;text-wrap:pretty">Describe the outcome. Six specialised agents plan, write, source, voice, composite, and render it for you.</p>
+            <div style="display:flex;align-items:center;gap:11px;margin-top:6px;flex-wrap:wrap;justify-content:center">
+              <div style="display:flex;align-items:center;gap:10px;height:48px;padding:0 26px;border-radius:13px;background:linear-gradient(135deg,#7C5CFF,#3B82F6);color:#fff;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 14px 34px rgba(92,80,255,.44);transition:transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s ease" style-hover="transform:translateY(-2px);box-shadow:0 20px 44px rgba(92,80,255,.6)" style-active="transform:translateY(0)">
+                Generate New Deliverable
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.75;border-left:1px solid rgba(255,255,255,.3);padding-left:10px">⌘⏎</span>
+              </div>
+              <div style="display:flex;align-items:center;height:48px;padding:0 20px;border-radius:13px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);font-size:14px;color:#C4C4D2;cursor:pointer;transition:background .16s ease,transform .16s ease" style-hover="background:rgba(255,255,255,.07);transform:translateY(-1px)">Browse templates</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:9px;margin-top:4px;flex-wrap:wrap;justify-content:center">
+              <sc-for list="{{ quickStarts }}" as="q" hint-placeholder-count="4">
+                <div style="font-size:11.8px;padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.09);background:rgba(8,8,14,.4);color:#9797AB;cursor:pointer;transition:all .16s ease" style-hover="border-color:rgba(146,118,255,.55);color:#DCD5FF;background:rgba(124,92,255,.12)">{{ q }}</div>
+              </sc-for>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== STATS ===== -->
+        <section style="display:grid;grid-template-columns:repeat(3,1fr);gap:13px">
+          <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+            <div onMouseEnter="{{ s.enter }}" onMouseLeave="{{ s.leave }}" style="position:relative;overflow:hidden;padding:20px 21px;border-radius:16px;border:1px solid {{ s.border }};background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(255,255,255,.012));box-shadow:{{ s.shadow }};transform:{{ s.lift }};cursor:pointer;transition:transform .2s cubic-bezier(.2,.7,.3,1),box-shadow .2s ease,border-color .2s ease">
+              <div style="position:absolute;top:-70px;right:-50px;width:200px;height:170px;pointer-events:none;background:radial-gradient(closest-side,{{ s.glow }},transparent);opacity:{{ s.glowOpacity }};transition:opacity .25s ease"></div>
+              <div style="position:relative;display:flex;align-items:center;gap:15px">
+                <div style="width:42px;height:42px;flex:none;border-radius:12px;display:grid;place-items:center;border:1px solid {{ s.iconBorder }};background:{{ s.iconBg }}">
+                  <div style="display:grid;place-items:center">{{ s.icon }}</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                  <div style="display:flex;align-items:baseline;gap:9px">
+                    <span style="font-size:32px;font-weight:600;letter-spacing:-.03em;line-height:1">{{ s.value }}</span>
+                    <span style="font-size:11.5px;color:{{ s.deltaColor }}">{{ s.delta }}</span>
+                  </div>
+                  <span style="font-size:12.5px;color:#8E8EA0">{{ s.label }}</span>
+                </div>
+              </div>
+              <div style="position:relative;margin-top:16px;height:3px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden">
+                <div style="height:100%;width:{{ s.barWidth }};border-radius:99px;background:{{ s.bar }}"></div>
+              </div>
+            </div>
+          </sc-for>
+        </section>
+
+        <!-- ===== RECENT ===== -->
+        <section style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap">
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <h2 style="margin:0;font-size:20px;font-weight:600;letter-spacing:-.022em">Recent deliverables</h2>
+              <span style="font-size:12.5px;color:#7A7A90">Last 14 jobs · 2 currently rendering</span>
+            </div>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+              <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+                <div onClick="{{ f.select }}" style="height:31px;padding:0 13px;border-radius:99px;display:flex;align-items:center;gap:7px;font-size:12.3px;cursor:pointer;transition:all .15s ease;border:1px solid {{ f.border }};background:{{ f.bg }};color:{{ f.color }}">{{ f.label }}<span style="font-family:'JetBrains Mono',monospace;font-size:10px;opacity:.6">{{ f.count }}</span></div>
+              </sc-for>
+              <div onClick="{{ refresh }}" style="height:31px;padding:0 12px;border-radius:9px;border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;gap:8px;font-size:12.3px;color:#B7B7C6;cursor:pointer;transition:background .15s ease" style-hover="background:rgba(255,255,255,.06)">
+                <span style="display:inline-grid;place-items:center;animation:{{ refreshAnim }}">{{ refreshIcon }}</span>Refresh
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:{{ gridCols }};gap:14px">
+            <sc-for list="{{ jobs }}" as="j" hint-placeholder-count="6">
+              <div onMouseEnter="{{ j.enter }}" onMouseLeave="{{ j.leave }}" style="display:flex;flex-direction:column;border-radius:16px;border:1px solid {{ j.border }};background:rgba(16,16,23,.72);overflow:hidden;cursor:pointer;transform:{{ j.lift }};box-shadow:{{ j.shadow }};transition:transform .22s cubic-bezier(.2,.7,.3,1),box-shadow .22s ease,border-color .22s ease">
+
+                <div style="position:relative;aspect-ratio:16/9;background:{{ j.thumb }};overflow:hidden">
+                  <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(118deg,rgba(255,255,255,.05) 0 1px,transparent 1px 12px)"></div>
+                  <div style="position:absolute;inset:0;background:radial-gradient(closest-side at 64% 40%,rgba(124,92,255,.22),transparent)"></div>
+
+                  <div style="position:absolute;left:10px;top:10px;display:flex;gap:6px">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;padding:4px 8px;border-radius:6px;border:1px solid {{ j.typeBorder }};background:{{ j.typeBg }};color:{{ j.typeColor }};backdrop-filter:blur(6px)">{{ j.type }}</span>
+                    <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;padding:4px 8px;border-radius:6px;border:1px solid {{ j.statusBorder }};background:{{ j.statusBg }};color:{{ j.statusColor }};backdrop-filter:blur(6px)">
+                      <span style="width:5px;height:5px;border-radius:50%;background:{{ j.statusDot }};animation:{{ j.statusAnim }}"></span>{{ j.status }}
+                    </span>
+                  </div>
+
+                  <div style="position:absolute;right:10px;bottom:10px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 7px;border-radius:5px;background:rgba(8,8,12,.7);color:#D6D6E2">{{ j.dur }}</div>
+                  <div style="position:absolute;left:11px;bottom:11px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45)">{{ j.slug }}</div>
+
+                  <sc-if value="{{ j.running }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;inset:0;display:grid;place-items:center">
+                      <div style="width:38px;height:38px;border-radius:50%;border:2px solid rgba(255,255,255,.14);border-top-color:#A899FF;animation:dbSpin 1s linear infinite"></div>
+                      <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none"><div style="position:absolute;top:0;left:0;height:100%;width:30%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.09),transparent);animation:dbShimmer 2.6s ease-in-out infinite"></div></div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ j.failed }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;inset:0;display:grid;place-items:center;background:rgba(24,8,10,.35)">
+                      <div style="width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(248,113,113,.5);background:rgba(248,113,113,.14);display:grid;place-items:center;color:#F49B9B;font-size:16px;line-height:1">!</div>
+                    </div>
+                  </sc-if>
+
+                  <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,8,12,.6),rgba(8,8,12,.04));opacity:{{ j.hoverOpacity }};display:grid;place-items:center;transition:opacity .22s ease">
+                    <sc-if value="{{ j.playable }}" hint-placeholder-val="{{ true }}">
+                      <div style="width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);display:grid;place-items:center;transform:{{ j.playScale }};transition:transform .22s cubic-bezier(.2,.7,.3,1)">
+                        <div style="width:0;height:0;border-left:12px solid #fff;border-top:7.5px solid transparent;border-bottom:7.5px solid transparent;margin-left:4px"></div>
+                      </div>
+                    </sc-if>
+                  </div>
+
+                  <div style="position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.1)"><div style="height:100%;width:{{ j.scrub }};background:linear-gradient(90deg,#7C5CFF,#3B82F6);transition:width .6s ease"></div></div>
+                </div>
+
+                <div style="padding:14px 15px 15px;display:flex;flex-direction:column;gap:11px;flex:1">
+                  <div style="display:flex;align-items:center;gap:9px">
+                    <span style="font-size:14px;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ j.title }}</span>
+                    <span style="margin-left:auto;flex:none;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6E6E82">{{ j.time }}</span>
+                  </div>
+                  <p style="margin:0;font-size:12.4px;line-height:1.55;color:#8E8EA0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ j.prompt }}</p>
+
+                  <sc-if value="{{ j.running }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <div style="display:flex;align-items:baseline;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10.5px"><span style="color:#C6BCFF">{{ j.stage }}</span><span style="color:#6E6E82">{{ j.pctLabel }}</span></div>
+                      <div style="height:4px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden"><div style="height:100%;width:{{ j.pct }};border-radius:99px;background:linear-gradient(90deg,#7C5CFF,#3B82F6);box-shadow:0 0 10px rgba(124,92,255,.5);transition:width .6s ease"></div></div>
+                    </div>
+                  </sc-if>
+
+                  <div style="margin-top:auto;padding-top:4px;display:flex;align-items:center;gap:9px">
+                    <span style="font-size:12.5px;font-weight:500;color:#A899FF;transition:color .15s ease" style-hover="color:#C6BCFF">View details →</span>
+                    <div style="margin-left:auto;display:flex;align-items:center;gap:7px;height:31px;padding:0 12px;border-radius:9px;border:1px solid {{ j.dlBorder }};background:{{ j.dlBg }};font-size:12px;color:{{ j.dlColor }};cursor:{{ j.dlCursor }};transition:background .15s ease">
+                      <span style="display:inline-grid;place-items:center">{{ j.dlIcon }}</span>{{ j.dlLabel }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1020},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;comfortable&quot;,&quot;compact&quot;],&quot;default&quot;:&quot;comfortable&quot;,&quot;tsType&quot;:&quot;'comfortable'|'compact'&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;animateProgress&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
+class Component extends DCLogic {
+  state = { hover: null, statHover: null, filter: 'All', spin: false, tick: 0 };
+
+  componentDidMount() {
+    if (this.props.animateProgress === false) return;
+    this._iv = setInterval(() => this.setState(s => ({ tick: s.tick + 1 })), 1400);
+  }
+  componentWillUnmount() { clearInterval(this._iv); clearTimeout(this._t); }
+
+  svg(paths, color, w) {
+    const p = { fill: 'none', stroke: color, strokeWidth: w || 1.7, strokeLinecap: 'round', strokeLinejoin: 'round' };
+    return React.createElement('svg', { viewBox: '0 0 20 20', width: 19, height: 19 },
+      paths.map((d, i) => React.createElement('path', Object.assign({ key: i, d }, p))));
+  }
+
+  renderVals() {
+    const st = this.state;
+
+    const statDefs = [
+      { label: 'Total jobs', value: '148', delta: '+12 this week', deltaColor: '#7BE3BC', glow: 'rgba(124,92,255,.30)', bar: 'linear-gradient(90deg,#7C5CFF,#3B82F6)', barWidth: '78%', icon: ['M2.5 6.5h5l1.5 2h8.5v8.5h-15z', 'M2.5 6.5V4h5'], color: '#C6BCFF', ib: 'rgba(146,118,255,.4)', ibg: 'rgba(124,92,255,.16)' },
+      { label: 'Completed deliverables', value: '131', delta: '94% success', deltaColor: '#7BE3BC', glow: 'rgba(52,211,153,.24)', bar: 'linear-gradient(90deg,#34D399,#3B82F6)', barWidth: '94%', icon: ['M3.5 10.5l4 4 9-9'], color: '#7BE3BC', ib: 'rgba(52,211,153,.34)', ibg: 'rgba(52,211,153,.12)' },
+      { label: 'Active processing', value: '2', delta: 'ETA 4:12', deltaColor: '#E6C79A', glow: 'rgba(240,163,78,.22)', bar: 'linear-gradient(90deg,#F0A34E,#7C5CFF)', barWidth: '46%', icon: ['M11 2.5L4 11.5h5l-1 6 7-9h-5z'], color: '#F0A34E', ib: 'rgba(240,163,78,.32)', ibg: 'rgba(240,163,78,.12)' }
+    ];
+    const stats = statDefs.map(s => {
+      const on = st.statHover === s.label;
+      return {
+        label: s.label, value: s.value, delta: s.delta, deltaColor: s.deltaColor,
+        icon: this.svg(s.icon, s.color), iconBorder: s.ib, iconBg: s.ibg,
+        glow: s.glow, glowOpacity: on ? 1 : 0.45, bar: s.bar, barWidth: s.barWidth,
+        enter: () => this.setState({ statHover: s.label }),
+        leave: () => this.setState({ statHover: null }),
+        border: on ? 'rgba(146,118,255,.42)' : 'rgba(255,255,255,.07)',
+        lift: on ? 'translateY(-3px)' : 'translateY(0)',
+        shadow: on ? '0 18px 40px rgba(0,0,0,.45)' : '0 1px 0 rgba(255,255,255,.02)'
+      };
+    });
+
+    const jobDefs = [
+      ['FitAI product demo', 'VIDEO', 'COMPLETED', '11:53 AM', '00:45', 'fitai_demo_v4', 'linear-gradient(140deg,#1B1430,#2A1C4A 60%,#141B2E)',
+        'Create a 45-second product demo video for a fitness app called “FitAI” that builds personalised workout plans. Show people exercising in modern gyms, tracking workouts on their phones, and hitting their goals.'],
+      ['Q3 investor update', 'PRESENTATION', 'COMPLETED', '10:21 AM', '14 slides', 'q3_investor_deck', 'linear-gradient(140deg,#2A1A16,#3A2418 60%,#1C1512)',
+        'Build a Q3 board deck covering ARR growth, retention cohorts, agent usage, and the FY27 hiring plan. Confident, data-forward, minimal chart chrome.'],
+      ['Timeline editor walkthrough', 'VIDEO', 'RUNNING', '9:47 AM', '01:02', 'timeline_walkthrough', 'linear-gradient(140deg,#12202B,#16304A 60%,#101A26)',
+        'A 60-second walkthrough of the new timeline editor: cold open on the problem, three UI beats with callouts, close on a CTA card.'],
+      ['Agent orchestration report', 'REPORT', 'COMPLETED', 'Yesterday', '18 pages', 'orchestration_paper', 'linear-gradient(140deg,#141F1B,#193029 60%,#101A18)',
+        'Write a technical report on multi-agent orchestration patterns for media pipelines, with citations and a comparison table of scheduling strategies.'],
+      ['Nova customer story', 'VIDEO', 'RUNNING', 'Yesterday', '00:31', 'nova_story_cut2', 'linear-gradient(140deg,#26142A,#3A1C3E 60%,#1A1220)',
+        'A 30-second customer story montage: quote-led opening, b-roll of the Nova team, a metric reveal at 0:18, warm outro on the logo lockup.'],
+      ['Onboarding sizzle reel', 'VIDEO', 'FAILED', '2 days ago', '00:22', 'onboard_sizzle', 'linear-gradient(140deg,#2A1418,#3B1A20 60%,#1C1216)',
+        'A fast 20-second onboarding sizzle reel with kinetic type, three product beats, and a punchy percussive bed under the narration.']
+    ];
+
+    const typeTone = {
+      VIDEO: ['rgba(146,118,255,.4)', 'rgba(124,92,255,.2)', '#C6BCFF'],
+      PRESENTATION: ['rgba(240,163,78,.34)', 'rgba(240,163,78,.16)', '#E6C79A'],
+      REPORT: ['rgba(52,211,153,.32)', 'rgba(52,211,153,.14)', '#7BE3BC']
+    };
+    const statusTone = {
+      COMPLETED: ['rgba(52,211,153,.32)', 'rgba(6,26,20,.6)', '#7BE3BC', '#34D399', 'none'],
+      RUNNING: ['rgba(146,118,255,.45)', 'rgba(14,10,30,.62)', '#C6BCFF', '#A899FF', 'dbPulse 1.4s ease-in-out infinite'],
+      FAILED: ['rgba(248,113,113,.34)', 'rgba(30,10,12,.62)', '#F49B9B', '#F87171', 'none']
+    };
+    const stageNames = ['Media Collection', 'Voice Generation', 'Compositing', 'Rendering'];
+
+    const jobs = jobDefs
+      .filter(j => st.filter === 'All'
+        || (st.filter === 'Video' && j[1] === 'VIDEO')
+        || (st.filter === 'Decks' && j[1] === 'PRESENTATION')
+        || (st.filter === 'Reports' && j[1] === 'REPORT')
+        || (st.filter === 'Running' && j[2] === 'RUNNING'))
+      .map(([title, type, status, time, dur, slug, thumb, prompt], i) => {
+        const tt = typeTone[type], sn = statusTone[status];
+        const on = st.hover === title;
+        const running = status === 'RUNNING', failed = status === 'FAILED', done = status === 'COMPLETED';
+        const pct = running ? Math.min(96, 34 + ((st.tick * 7 + i * 19) % 58)) : 0;
+        return {
+          title, type, status, time, dur, slug, thumb, prompt, running, failed,
+          typeBorder: tt[0], typeBg: tt[1], typeColor: tt[2],
+          statusBorder: sn[0], statusBg: sn[1], statusColor: sn[2], statusDot: sn[3], statusAnim: sn[4],
+          stage: stageNames[(Math.floor(st.tick / 2) + i) % 4] + ' · agent 4 of 6',
+          pct: pct + '%', pctLabel: pct + '%',
+          playable: done,
+          enter: () => this.setState({ hover: title }),
+          leave: () => this.setState({ hover: null }),
+          border: on ? 'rgba(146,118,255,.5)' : 'rgba(255,255,255,.07)',
+          lift: on ? 'translateY(-5px)' : 'translateY(0)',
+          shadow: on ? '0 24px 52px rgba(0,0,0,.55)' : '0 1px 0 rgba(255,255,255,.02)',
+          hoverOpacity: on ? 1 : 0,
+          playScale: on ? 'scale(1)' : 'scale(.82)',
+          scrub: on && done ? '42%' : running ? pct + '%' : '0%',
+          dlLabel: done ? 'Download' : failed ? 'Retry' : 'Pending',
+          dlIcon: this.svg(done ? ['M10 3v9', 'M6 9.5l4 3.5 4-3.5', 'M3.5 16.5h13'] : failed ? ['M15.5 6.5a6.5 6.5 0 1 0 1.2 5.5', 'M16.5 3v4h-4'] : ['M10 5.5v4.5l3 2', 'M10 2.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15z'], done ? '#D6D6E2' : failed ? '#F49B9B' : '#6E6E82', 1.6),
+          dlBorder: done ? 'rgba(255,255,255,.12)' : failed ? 'rgba(248,113,113,.28)' : 'rgba(255,255,255,.07)',
+          dlBg: done ? 'rgba(255,255,255,.05)' : failed ? 'rgba(248,113,113,.1)' : 'rgba(255,255,255,.02)',
+          dlColor: done ? '#D6D6E2' : failed ? '#F49B9B' : '#6E6E82',
+          dlCursor: done || failed ? 'pointer' : 'default'
+        };
+      });
+
+    const pill = (on) => ({
+      border: on ? 'rgba(146,118,255,.6)' : 'rgba(255,255,255,.08)',
+      bg: on ? 'rgba(124,92,255,.16)' : 'transparent',
+      color: on ? '#DCD5FF' : '#8E8EA0'
+    });
+    const filters = ['All', 'Video', 'Decks', 'Reports', 'Running'].map((label, i) => Object.assign({
+      label, count: [148, 96, 31, 19, 2][i], select: () => this.setState({ filter: label })
+    }, pill(st.filter === label)));
+
+    return {
+      stats, jobs, filters,
+      quickStarts: ['Product launch film', 'Feature walkthrough', 'Investor deck', 'Research brief'],
+      refreshIcon: this.svg(['M16.5 6.5a6.5 6.5 0 1 0 1.2 5.5', 'M17.5 3v4h-4'], '#B7B7C6', 1.6),
+      refreshAnim: st.spin ? 'dbSpin .7s linear' : 'none',
+      refresh: () => {
+        this.setState({ spin: true });
+        clearTimeout(this._t);
+        this._t = setTimeout(() => this.setState({ spin: false }), 700);
+      },
+      gridCols: this.props.density === 'compact' ? 'repeat(auto-fill,minmax(272px,1fr))' : 'repeat(auto-fill,minmax(340px,1fr))'
+    };
+  }
+}
+</script>
+</body>
+</html>
