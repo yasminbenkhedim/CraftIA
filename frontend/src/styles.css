@@ -1,0 +1,518 @@
+/* ==========================================================================
+   CreateFlow AI — global design tokens
+   Extracted from the Claude Design spec (CreateFlow AI.dc.html) so every
+   component references the same palette instead of re-declaring hex values.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* — Surfaces — */
+  --cf-bg: #08080C;
+  --cf-surface-rail: rgba(12, 12, 18, .72);
+  --cf-surface-header: rgba(8, 8, 12, .6);
+  --cf-surface-card: rgba(255, 255, 255, .022);
+  --cf-surface-card-hover: rgba(255, 255, 255, .05);
+  --cf-surface-input: linear-gradient(180deg, rgba(20, 20, 28, .9), rgba(14, 14, 20, .9));
+  --cf-surface-sticky: rgba(14, 14, 20, .86);
+  --cf-surface-panel: rgba(14, 14, 20, .7);
+
+  /* — Borders — */
+  --cf-border: rgba(255, 255, 255, .06);
+  --cf-border-soft: rgba(255, 255, 255, .07);
+  --cf-border-card: rgba(255, 255, 255, .08);
+  --cf-border-strong: rgba(255, 255, 255, .12);
+  --cf-border-accent: rgba(146, 118, 255, .65);
+
+  /* — Text — */
+  --cf-text: #EDEDF2;
+  --cf-text-2: #B7B7C6;
+  --cf-text-3: #9797AB;
+  --cf-text-muted: #8E8EA0;
+  --cf-text-dim: #7A7A90;
+  --cf-text-dimmer: #6E6E82;
+  --cf-text-faint: #5F5F72;
+  --cf-text-faintest: #4F4F60;
+
+  /* — Accent (violet → blue) — */
+  --cf-accent: #7C5CFF;
+  --cf-accent-2: #3B82F6;
+  --cf-accent-grad: linear-gradient(135deg, #7C5CFF, #3B82F6);
+  --cf-accent-link: #A899FF;
+  --cf-accent-link-hover: #C6BCFF;
+  --cf-accent-soft: #B4A6FF;
+  --cf-accent-ring: #9E8BFF;
+  --cf-accent-eyebrow: #8977FF;
+  --cf-accent-on-pill: #DCD5FF;
+  --cf-accent-tint: rgba(124, 92, 255, .14);
+  --cf-accent-tint-strong: rgba(124, 92, 255, .18);
+  --cf-accent-glow: rgba(92, 80, 255, .34);
+
+  /* — Status — */
+  --cf-ok: #34D399;
+  --cf-ok-soft: #7BE3BC;
+  --cf-warn: #F0A34E;
+  --cf-warn-soft: #E6C79A;
+  --cf-err: #F87171;
+  --cf-err-soft: #F49B9B;
+
+  /* — Type — */
+  --cf-font: 'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --cf-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* — Metrics — */
+  --cf-rail-w: 248px;
+  --cf-header-h: 60px;
+  --cf-radius-sm: 8px;
+  --cf-radius: 12px;
+  --cf-radius-lg: 14px;
+  --cf-radius-xl: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: var(--cf-bg);
+  color: var(--cf-text);
+  font-family: var(--cf-font);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--cf-accent-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--cf-accent-link-hover);
+}
+
+textarea,
+input,
+button {
+  font-family: inherit;
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: #5C5C70;
+}
+
+/* — Shared mono eyebrow/label treatment — */
+.cf-mono {
+  font-family: var(--cf-font-mono);
+}
+
+.cf-eyebrow {
+  font-family: var(--cf-font-mono);
+  font-size: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--cf-accent-eyebrow);
+}
+
+/* ==========================================================================
+   Shared UI primitives
+   Promoted out of job-detail so the panel, chip, button and progress-bar
+   treatments stay identical wherever they are reused.
+   ========================================================================== */
+
+.cf-panel {
+  border-radius: 18px;
+  border: 1px solid var(--cf-border-card);
+  background: var(--cf-surface-panel);
+  padding: 19px;
+}
+
+.cf-panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.cf-panel-title {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+/* Primary action: the violet→blue gradient button from the design. */
+.cf-btn-primary {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 0;
+  cursor: pointer;
+  background: var(--cf-accent-grad);
+  color: #fff;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: 0 8px 22px var(--cf-accent-glow);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+.cf-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(92, 80, 255, .5);
+}
+
+/* Status pill. Tone classes set border/background/color; the dot inherits color. */
+.cf-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 13px;
+  border-radius: 99px;
+  border: 1px solid;
+  font-family: var(--cf-font-mono);
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  transition: all .4s ease;
+}
+
+.cf-chip::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.cf-chip-run {
+  border-color: rgba(146, 118, 255, .42);
+  background: var(--cf-accent-tint-strong);
+  color: var(--cf-accent-link-hover);
+}
+
+.cf-chip-run::before { animation: cfPulse 1.5s ease-in-out infinite; }
+
+.cf-chip-ok {
+  border-color: rgba(52, 211, 153, .32);
+  background: rgba(52, 211, 153, .1);
+  color: var(--cf-ok-soft);
+}
+
+.cf-chip-err {
+  border-color: rgba(248, 113, 113, .32);
+  background: rgba(248, 113, 113, .1);
+  color: var(--cf-err-soft);
+}
+
+.cf-chip-idle {
+  border-color: var(--cf-border-card);
+  background: rgba(255, 255, 255, .03);
+  color: var(--cf-text-dim);
+}
+
+/* Secondary action: outlined, quiet. */
+.cf-btn-ghost {
+  height: 31px;
+  padding: 0 12px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, .09);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 12.3px;
+  color: var(--cf-text-2);
+  background: transparent;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.cf-btn-ghost:hover:not(:disabled) { background: rgba(255, 255, 255, .06); }
+.cf-btn-ghost:disabled { cursor: default; opacity: .7; }
+
+/* Toggle pill, used for filter rows. */
+.cf-pill {
+  height: 31px;
+  padding: 0 13px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: inherit;
+  font-size: 12.3px;
+  cursor: pointer;
+  border: 1px solid var(--cf-border-card);
+  background: transparent;
+  color: var(--cf-text-muted);
+  transition: all .15s ease;
+}
+
+.cf-pill:hover { border-color: rgba(146, 118, 255, .4); color: var(--cf-text-2); }
+
+.cf-pill-on {
+  border-color: rgba(146, 118, 255, .6);
+  background: var(--cf-accent-tint-strong);
+  color: var(--cf-accent-on-pill);
+}
+
+/* Uppercase mono badge: deliverable type and job status. */
+.cf-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--cf-font-mono);
+  font-size: 9px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid;
+  backdrop-filter: blur(6px);
+}
+
+.cf-tag::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  display: none;
+}
+
+.cf-tag-dot::before { display: block; }
+
+.cf-tag-video  { border-color: rgba(146, 118, 255, .40); background: rgba(124, 92, 255, .20); color: var(--cf-accent-link-hover); }
+.cf-tag-deck   { border-color: rgba(240, 163, 78, .34); background: rgba(240, 163, 78, .16); color: var(--cf-warn-soft); }
+.cf-tag-report { border-color: rgba(52, 211, 153, .32); background: rgba(52, 211, 153, .14); color: var(--cf-ok-soft); }
+
+.cf-tag-completed { border-color: rgba(52, 211, 153, .32); background: rgba(6, 26, 20, .6); color: var(--cf-ok-soft); }
+.cf-tag-running   { border-color: rgba(146, 118, 255, .45); background: rgba(14, 10, 30, .62); color: var(--cf-accent-link-hover); }
+.cf-tag-running::before { animation: cfPulse 1.4s ease-in-out infinite; }
+.cf-tag-queued    { border-color: var(--cf-border-strong); background: rgba(14, 14, 20, .62); color: var(--cf-text-dim); }
+.cf-tag-failed    { border-color: rgba(248, 113, 113, .34); background: rgba(30, 10, 12, .62); color: var(--cf-err-soft); }
+/* Expired: the job succeeded, but storage retention has since removed the file.
+   Deliberately neutral rather than red -- nothing went wrong, it just aged out. */
+.cf-tag-expired   { border-color: rgba(255, 255, 255, .16); background: rgba(18, 18, 24, .66); color: var(--cf-text-dimmer); }
+/* The thumbnail overlay and footer label that go with it now live inside
+   DeliverableCardComponent, which is the only thing that renders them. Only the tag
+   variant stays global, alongside the other cf-tag-* status colours. */
+
+/* Checkbox control. Lives here with the other cf-* controls rather than in a page:
+   the native box cannot be styled directly, so every page that needs one would otherwise
+   re-derive the same hidden-input-plus-painted-square trick. */
+.cf-check { display: flex; align-items: center; gap: 9px; cursor: pointer; min-width: 0; }
+.cf-check.disabled { cursor: default; opacity: .6; }
+.cf-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.cf-check-box {
+  width: 16px; height: 16px; flex: none; border-radius: 5px; position: relative;
+  border: 1px solid var(--cf-border-card); background: transparent;
+  transition: border-color .15s ease, background .15s ease;
+}
+.cf-check input:checked + .cf-check-box {
+  border-color: rgba(146, 118, 255, .7); background: rgba(124, 92, 255, .5);
+}
+.cf-check input:checked + .cf-check-box::after {
+  content: ''; position: absolute; left: 4.5px; top: 1px;
+  width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+.cf-check input:focus-visible + .cf-check-box { outline: 2px solid var(--cf-accent-ring); outline-offset: 2px; }
+
+/* Progress bar: ruled track, gradient fill, barber-pole stripe, travelling sheen. */
+.cf-track {
+  position: relative;
+  height: 9px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .06);
+  overflow: hidden;
+}
+
+.cf-track::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .5;
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, .05) 0 1px, transparent 1px 17px);
+}
+
+.cf-fill {
+  position: relative;
+  height: 100%;
+  border-radius: 99px;
+  overflow: hidden;
+  background: linear-gradient(90deg, #6C4BFF, #7C5CFF 35%, #3B82F6);
+  box-shadow: 0 0 18px rgba(124, 92, 255, .6);
+}
+
+.cf-fill-ok {
+  background: linear-gradient(90deg, #10B981, #34D399);
+  box-shadow: 0 0 18px rgba(52, 211, 153, .5);
+}
+
+.cf-fill-err {
+  background: linear-gradient(90deg, #B91C1C, #F87171);
+  box-shadow: 0 0 18px rgba(248, 113, 113, .45);
+}
+
+.cf-fill-stripe {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(115deg, rgba(255, 255, 255, .22) 0 8px, transparent 8px 17px);
+  animation: cfStripe .9s linear infinite;
+}
+
+.cf-sheen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cf-sheen > span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 22%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .16), transparent);
+  animation: cfShimmer 2.4s ease-in-out infinite;
+}
+
+/* Generic list states: fetching, and nothing to show. */
+.cf-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px;
+  color: var(--cf-text-muted);
+  font-size: 13px;
+}
+
+.cf-loading p { margin: 0; }
+
+.cf-empty {
+  text-align: center;
+  padding: 44px 24px;
+}
+
+.cf-empty h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cf-empty p {
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: var(--cf-text-muted);
+}
+
+.cf-spinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .12);
+  border-top-color: var(--cf-accent-link);
+  animation: cfSpin 1s linear infinite;
+}
+
+/* — Scrollbars — */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .09);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, .16);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* — Motion primitives from the design — */
+@keyframes cfSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cfPulse {
+  0%, 100% { opacity: .35; }
+  50% { opacity: 1; }
+}
+
+@keyframes cfShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes cfDrift {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-2%, 2%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* Hero blobs: three independently drifting/scaling gradient fields. Distinct from
+   cfDrift, which is the flatter ambient motion behind the whole app shell. */
+@keyframes cfBlobA {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-5%, 4%, 0) scale(1.08); }
+}
+
+@keyframes cfBlobB {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+  50% { transform: translate3d(6%, -5%, 0) scale(.95); }
+}
+
+@keyframes cfBlobC {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-3%, -6%, 0); }
+}
+
+/* Expanding ring + glow on whichever pipeline stage is currently running. */
+@keyframes cfHalo {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124, 92, 255, .30), 0 0 18px rgba(124, 92, 255, .28); }
+  50% { box-shadow: 0 0 0 7px rgba(124, 92, 255, 0), 0 0 26px rgba(124, 92, 255, .46); }
+}
+
+/* Slow tint breathing on the active stage row, under the halo. */
+@keyframes cfRowGlow {
+  0%, 100% { background: rgba(124, 92, 255, .075); }
+  50% { background: rgba(124, 92, 255, .135); }
+}
+
+/* Diagonal barber-pole travelling along the filled part of the progress bar. */
+@keyframes cfStripe {
+  0% { background-position: 0 0; }
+  100% { background-position: 34px 0; }
+}
+
+/* Equalizer bars used as the "this stage is working" indicator. */
+@keyframes cfBars {
+  0%, 100% { transform: scaleY(.28); }
+  50% { transform: scaleY(1); }
+}
+
+/* Entry for rows that appear as the pipeline advances. */
+@keyframes cfRise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
